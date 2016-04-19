@@ -40,7 +40,7 @@ class DefaultController extends \luya\web\Controller
                 throw new Exception("We haved catched a spam contact form with the values: " . print_r($model->attributes, true));
             }
             
-            $mail = Yii::$app->mail->compose('['.Yii::$app->siteTitle.'] contact form', $this->renderFile('@contactform/views/_mail.php', ['model' => $model]));
+            $mail = Yii::$app->mail->compose('['.Yii::$app->siteTitle.'] contact form', $this->renderFile('@'.$this->module->id.'/views/_mail.php', ['model' => $model]));
             $mail->adresses($this->module->recipients);
             if ($mail->send()) {
                 $this->success = true;
