@@ -36,10 +36,9 @@ class DefaultController extends \luya\web\Controller
         }
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ((intval(time()) - intval(Yii::$app->session->get('renderTime', 0))) < $this->module->spamDetectionDelay) {
+            if ((time() - (int) Yii::$app->session->get('renderTime', 0)) < $this->module->spamDetectionDelay) {
                 throw new Exception("We haved catched a spam contact form with the values: " . print_r($model->attributes, true));
             }
-            
             $mail = Yii::$app->mail->compose('['.Yii::$app->siteTitle.'] contact form', $this->renderFile('@'.$this->module->id.'/views/_mail.php', ['model' => $model]));
             $mail->adresses($this->module->recipients);
             if ($mail->send()) {
@@ -54,9 +53,10 @@ class DefaultController extends \luya\web\Controller
             } else {
                 $this->success = false;
             }
+        } else {
+            // as the toolbar maybe try's to re render this part of the controller.
+            Yii::$app->session->set('renderTime', time());
         }
-        
-        Yii::$app->session->set('renderTime', time());
         
         return $this->render('index', [
             'model' => $model,
