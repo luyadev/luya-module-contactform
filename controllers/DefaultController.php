@@ -23,6 +23,8 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionIndex()
     {
+        $mailTitle = $this->module->mailTitle;
+        
         // create dynamic model
         $model = new DynamicModel($this->module->attributes);
         $model->attributeLabels = $this->module->attributeLabels;
@@ -39,7 +41,12 @@ class DefaultController extends \luya\web\Controller
             if ((time() - (int) Yii::$app->session->get('renderTime', 0)) < $this->module->spamDetectionDelay) {
                 throw new Exception("We haved catched a spam contact form with the values: " . print_r($model->attributes, true));
             }
-            $mail = Yii::$app->mail->compose('['.Yii::$app->siteTitle.'] contact form', $this->renderFile('@'.$this->module->id.'/views/_mail.php', ['model' => $model]));
+            
+            $mail = Yii::$app->mail->compose('['.Yii::$app->siteTitle.'] ' . $mailTitle, $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
+                'model' => $model,
+                'mailTitle' => $mailTitle,
+            ]));
+            
             $mail->adresses($this->module->recipients);
             if ($mail->send()) {
                 $this->success = true;

@@ -3,7 +3,7 @@
  * @var $model The dynamc model
  */
 ?>
-<h2><?= Yii::$app->siteTitle;?> contact request</h2>
+<h2><?= Yii::$app->siteTitle;?> <?= $mailTitle; ?></h2>
 <p>Date: <?= date("d.m.Y H:i"); ?></p>
 <table border="0" cellpadding="5" cellspacing="2" width="100%">
     <?php foreach ($model->getAttributes() as $key => $value): ?>

@@ -33,6 +33,11 @@ class Module extends \luya\base\Module
     public $useAppViewPath = true;
     
     /**
+     * @var string The title used in mail subject and mail body
+     */
+    public $mailTitle = 'Contact Request';
+    
+    /**
      * @var array An array containing all the attributes for this model
      * 
      * ```
