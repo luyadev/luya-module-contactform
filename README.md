@@ -1,5 +1,4 @@
-LUYA CONTACT FORM MODULE
-===================
+# LUYA CONTACT FORM MODULE
 
 This module provides a very fast and secure way to create customizable contact forms.
 
