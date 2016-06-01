@@ -2,7 +2,7 @@
     "name" : "luyadev/luya-module-contactform",
     "description" : "LUYA Form Builder",
     "type" : "luya-module",
-    "keywords" : ["php", "luya", "module", "cms", "yii2", "yii", "contact", "form", "yii2form", "dynamicformbuilder", "yii2-form"],
+    "keywords" : ["php", "luya", "module", "cms", "yii2", "yii", "contact", "form", "yii2form", "dynamicformbuilder", "yii2-form", "luya-module"],
     "license": "MIT",
     "homepage" : "http://luya.io",
     "authors" : [
