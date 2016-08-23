@@ -87,3 +87,21 @@ div.required label.control-label:after {
    color: red;
 }
 ```
+
+#### Trigger after success
+
+You can define a anonmys function which will be trigger **after success**, the first parameter of the function can be the model which will be assigne [[\luya\base\DynamicModel]]. Example callback:
+
+```php
+'modules' => [
+    // ...
+    'contactform' => [
+        // ...
+        'callback' => function($model) {
+            // insert the name of each contact form into `contact_form_requests` table:
+            Yii::$db->createCommand()->insert('contact_form_requests', ['name' => $model->name])->execute();
+        }
+    ],
+];
+$callback = 
+```
