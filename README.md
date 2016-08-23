@@ -78,3 +78,12 @@ use yii\helpers\Html;
 ```
 
 when the form validation success the variable `$success` will be true, in addition a Yii2 flash mesage `Yii::$app->session->setFlash('contactform_success')` with the key-name `contactform_success` will be set.
+
+Tip: In order to style required fields with asterisks, you can use the following CSS:
+
+```css
+div.required label.control-label:after {
+   content: " *";
+   color: red;
+}
+```
