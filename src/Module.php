@@ -1,14 +1,14 @@
 <?php
 
-namespace contactform;
+namespace luya\contactform;
 
 use luya\Exception;
 
 /**
  * LUYA CONTACT FORM MODULE
- * 
+ *
  * Example configuration:
- * 
+ *
  * ```
  * 'contactform' => [
  *     'class' => 'contactform\Module',
@@ -20,7 +20,7 @@ use luya\Exception;
  *     'recipients' => ['admin@example.com'],
  * ],
  * ```
- * 
+ *
  * @author nadar
  * @since 1.0.0-beta6
  */
@@ -39,7 +39,7 @@ class Module extends \luya\base\Module
     
     /**
      * @var array An array containing all the attributes for this model
-     * 
+     *
      * ```
      * 'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
      * ```
@@ -49,7 +49,7 @@ class Module extends \luya\base\Module
     /**
      * @var array An array define the attribute labels for an attribute, internal the attribute label values
      * will be wrapped into the `Yii::t()` method.
-     * 
+     *
      * ```
      * 'attributeLabels' => [
      *     'email' => 'E-Mail-Adresse',
@@ -60,7 +60,7 @@ class Module extends \luya\base\Module
     
     /**
      * @var array An array define the rules for the corresponding attributes. Example rules:
-     * 
+     *
      * ```php
      * rules' => [
      *     [['name', 'email', 'street', 'city', 'message'], 'required'],
@@ -71,9 +71,9 @@ class Module extends \luya\base\Module
     public $rules = [];
     
     /**
-     * @var callable You can define a anonmys function which will be trigger on success, the first parameter of the 
+     * @var callable You can define a anonmys function which will be trigger on success, the first parameter of the
      * function can be the model which will be assigned [[\luya\base\DynamicModel]]. Example callback
-     * 
+     *
      * ```php
      * $callback = function($model) {
      *     // insert the name of each contact form into `contact_form_requests` table:
@@ -84,8 +84,8 @@ class Module extends \luya\base\Module
     public $callback = null;
     
     /**
-     * 
-     * @var array An array with all recipients the mail should be sent on success, recipients will be assigned via 
+     *
+     * @var array An array with all recipients the mail should be sent on success, recipients will be assigned via
      * [[\luya\components\Mail::adresses()|adresses()]] method of the mailer function.
      */
     public $recipients = null;

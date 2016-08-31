@@ -1,6 +1,6 @@
 <?php
 
-namespace contactform\controllers;
+namespace luya\contactform\controllers;
 
 use Yii;
 use luya\base\DynamicModel;
@@ -10,14 +10,14 @@ use luya\Exception;
 class DefaultController extends \luya\web\Controller
 {
     /**
-     * @var null|bool if null no status information has been assigned, if false a global error happend (could not send mail), if true 
+     * @var null|bool if null no status information has been assigned, if false a global error happend (could not send mail), if true
      * the form has been sent successfull.
      */
     public $success = null;
     
     /**
      * Index Action
-     * 
+     *
      * @throws InvalidConfigException
      * @return string
      */
