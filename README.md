@@ -8,7 +8,7 @@ Installation
 Require the contact module via composer
 
 ```sh
-composer require luyadev/luya-module-contactform
+composer require luyadev/luya-module-contactform:^1.0@dev
 ```
 
 add the contact form module to your config:
