@@ -59,7 +59,7 @@ use yii\helpers\Html;
  */
 ?>
 
-<? if ($success): ?>
+<? if (Yii::$app->session->getFlash('contactform_success')): ?>
     <div class="alert alert-success">The form has been submited successfull.</div>
 <? else: ?>
     <? $form = ActiveForm::begin(); ?>
