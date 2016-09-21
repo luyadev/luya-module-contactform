@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $model The dynamc model
+ * @var $model The dynamic model
  */
 ?>
 <h2><?= Yii::$app->siteTitle;?> <?= $mailTitle; ?></h2>
