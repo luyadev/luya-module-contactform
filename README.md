@@ -45,7 +45,8 @@ By default LUYA will wrap the value into the `Yii::t('app', $value)` functions s
 
 #### View Files
 
-Create the view file for the corresponding model data:
+Typically view files are located in `views` folder of your project root, create the view file for the corresponding model data at `views/contactform/default/index.php` with the following content:
+
 
 ```php
 <?php
