@@ -104,5 +104,4 @@ You can define a anonmys function which will be trigger **after success**, the f
         }
     ],
 ];
-$callback = 
 ```
