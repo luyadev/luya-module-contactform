@@ -58,10 +58,11 @@ Typically view files are located in `views` folder of your project root, create 
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-/**
- * @var object $model Contains the model object based on DynamicModel yii class.
- * @var boolean $success Return true when successfull sent mail and validated
- */
+/* @var object $model Contains the model object based on DynamicModel yii class. */
+/* @var boolean $success Return true when successfull sent mail and validated */
+/* @var $this \luya\web\View */
+/* @var $form \yii\widgets\ActiveForm */
+
 ?>
 
 <? if (Yii::$app->session->getFlash('contactform_success')): ?>
