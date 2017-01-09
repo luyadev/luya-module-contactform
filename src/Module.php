@@ -2,6 +2,7 @@
 
 namespace luya\contactform;
 
+use Yii;
 use luya\Exception;
 
 /**
@@ -20,6 +21,8 @@ use luya\Exception;
  *     'recipients' => ['admin@example.com'],
  * ],
  * ```
+ * 
+ * @property string $mailTitle The mail title property.
  *
  * @author nadar
  * @since 1.0.0-beta6
@@ -31,11 +34,6 @@ class Module extends \luya\base\Module
      * the module base path views folder.
      */
     public $useAppViewPath = true;
-    
-    /**
-     * @var string The title used in mail subject and mail body
-     */
-    public $mailTitle = 'Contact Request';
     
     /**
      * @var array An array containing all the attributes for this model
@@ -84,9 +82,8 @@ class Module extends \luya\base\Module
     public $callback = null;
     
     /**
-     *
-     * @var array An array with all recipients the mail should be sent on success, recipients will be assigned via
-     * [[\luya\components\Mail::adresses()|adresses()]] method of the mailer function.
+     *@var array An array with all recipients the mail should be sent on success, recipients will be assigned via
+     * {{\luya\components\Mail::adresses}} method of the mailer function.
      */
     public $recipients = null;
     
@@ -95,6 +92,21 @@ class Module extends \luya\base\Module
      * and throws an exception. As humans requires at least more then 2 seconds to fillup a form we use this as base value.
      */
     public $spamDetectionDelay = 2;
+    
+    /**
+     * @var string If you like to enable that the same email for $recipients is going to be sent to the customer which enters form provide the attribute name
+     * for the email adresse from the $model configuration. Assuming you have an attribute 'email' in your configuration attributes you have to provide this name.
+     * 
+     * ```php
+     * 'sendToUserEmail' => 'email',
+     * ```
+     */
+    public $sendToUserEmail = false;
+    
+    /**
+     * @var string Markdown enabled text which can be prepand to the E-Mail Data body.
+     */
+    public $mailText = null;
     
     /**
      * {@inheritDoc}
@@ -112,4 +124,30 @@ class Module extends \luya\base\Module
             throw new Exception("The recipients attributed must be defined with an array of recipients who will recieve an email.");
         }
     }
+    
+    private $_mailTitle = null;
+    
+    /**
+     * Getter method for $mailTitle.
+     * 
+     * @return string
+     */
+    public function getMailTitle()
+    {
+    	if ($this->_mailTitle === null) {
+    		$this->_mailTitle = '['.Yii::$app->siteTitle.'] Contact Request';
+    	}
+    	 
+    	return $this->_mailTitle;
+    }
+    
+    /**
+     * Setter method fro $mailTitle.
+     * 
+     * @param string $title The mail title text.
+     */
+    public function setMailTitle($title)
+    {
+    	$this->_mailTitle = $title;
+    }    
 }

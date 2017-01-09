@@ -59,7 +59,6 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 /* @var object $model Contains the model object based on DynamicModel yii class. */
-/* @var boolean $success Return true when successfull sent mail and validated */
 /* @var $this \luya\web\View */
 /* @var $form \yii\widgets\ActiveForm */
 
@@ -110,3 +109,12 @@ You can define a anonmys function which will be trigger **after success**, the f
     ],
 ];
 ```
+
+#### Advanced configuration
+
+|attribte 	|example
+|---		|---
+|`mailTitle`|The mail title is also known as the mail subject
+|`mailText`|This is a message which can be used for the mail body as intro, markdown parsing is enabled by default. 
+|`sendToUserEmail`|If enabled the mail will also sent to the user how has submited the mail, configure the property with the mail field from the model.
+|`callback`|An anyonymus function find the model argument in order to trigger custom functions.

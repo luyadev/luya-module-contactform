@@ -4,17 +4,12 @@ namespace luya\contactform\controllers;
 
 use Yii;
 use luya\base\DynamicModel;
-use yii\base\InvalidConfigException;
 use luya\Exception;
+use luya\TagParser;
+use yii\base\InvalidConfigException;
 
 class DefaultController extends \luya\web\Controller
-{
-    /**
-     * @var null|bool if null no status information has been assigned, if false a global error happend (could not send mail), if true
-     * the form has been sent successfull.
-     */
-    public $success = null;
-    
+{   
     /**
      * Index Action
      *
@@ -23,8 +18,6 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionIndex()
     {
-        $mailTitle = $this->module->mailTitle;
-        
         // create dynamic model
         $model = new DynamicModel($this->module->attributes);
         $model->attributeLabels = $this->module->attributeLabels;
@@ -42,23 +35,23 @@ class DefaultController extends \luya\web\Controller
                 throw new Exception("We haved catched a spam contact form with the values: " . print_r($model->attributes, true));
             }
             
-            $mail = Yii::$app->mail->compose('['.Yii::$app->siteTitle.'] ' . $mailTitle, $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
-                'model' => $model,
-                'mailTitle' => $mailTitle,
-            ]));
-            
-            $mail->adresses($this->module->recipients);
+            $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model))->adresses($this->module->recipients);
             if ($mail->send()) {
-                $this->success = true;
+                if ($this->module->sendToUserEmail) {
+                	$sendToUserMail = $this->module->sendToUserEmail;
+                	Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model))->address($model->$sendToUserMail)->send();
+                }
+                
+                // callback eval
+                if (is_callable($this->module->callback)) {
+                    call_user_func($this->module->callback, $model);
+                }
+                
                 Yii::$app->session->setFlash('contactform_success');
                 
-                // callback
-                $cb = $this->module->callback;
-                if (is_callable($cb)) {
-                    $cb($model);
-                }
+                return $this->refresh();
             } else {
-                $this->success = false;
+            	throw new InvalidConfigException('Unable to send email, maybe the error component was not configure propertyl.');
             }
         } else {
             // as the toolbar maybe try's to re render this part of the controller.
@@ -67,7 +60,15 @@ class DefaultController extends \luya\web\Controller
         
         return $this->render('index', [
             'model' => $model,
-            'success' => $this->success,
         ]);
+    }
+    
+    public function generateMailMessage($model)
+    {
+    	return $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
+    		'model' => $model,
+    		'title' => $this->module->mailTitle,
+    		'text' => TagParser::convertWithMarkdown($this->module->mailText),
+    	]);
     }
 }
