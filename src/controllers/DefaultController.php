@@ -51,7 +51,7 @@ class DefaultController extends \luya\web\Controller
                 
                 return $this->refresh();
             } else {
-            	throw new InvalidConfigException('Unable to send email, maybe the error component was not configure propertyl.');
+            	throw new InvalidConfigException('Unable to send email, maybe the mail component is not configure properly.');
             }
         } else {
             // as the toolbar maybe try's to re render this part of the controller.
