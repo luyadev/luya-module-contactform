@@ -1,5 +1,10 @@
 # LUYA CONTACT FORM MODULE
 
+[![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
+[![Total Downloads](https://poser.pugx.org/luyadev/luya-module-contactform/downloads)](https://packagist.org/packages/luyadev/luya-module-contactform)
+[![Latest Stable Version](https://poser.pugx.org/luyadev/luya-module-contactform/v/stable)](https://packagist.org/packages/luyadev/luya-module-contactform)
+[![Join the chat at https://gitter.im/luyadev/luya](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/luyadev/luya)
+
 This module provides a very fast and secure way to create customizable contact forms.
 
 Installation
@@ -8,7 +13,7 @@ Installation
 Require the contact module via composer
 
 ```sh
-composer require luyadev/luya-module-contactform:^1.0@dev
+composer require luyadev/luya-module-contactform
 ```
 
 add the contact form module to your config:
