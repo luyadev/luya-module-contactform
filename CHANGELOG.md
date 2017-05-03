@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file. This projec
 1.0.1 (in progress)
 -------------------
 
++ [#3](https://github.com/luyadev/luya-module-contactform/issues/3) Removed method `adresses()` due to RC3 upgrade conflict. 
+
 1.0.0 (25. April 2017)
 ----------------------
 
