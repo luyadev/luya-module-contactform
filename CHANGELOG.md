@@ -3,7 +3,7 @@ LUYA MODULE CONTACTFORM CHANGELOG
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
-1.0.1 (in progress)
+1.0.1 (3. May 2017)
 -------------------
 
 + [#3](https://github.com/luyadev/luya-module-contactform/issues/3) Removed method `adresses()` due to RC3 upgrade conflict. 
