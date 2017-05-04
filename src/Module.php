@@ -10,7 +10,7 @@ use luya\Exception;
  *
  * Example configuration:
  *
- * ```
+ * ```php
  * 'contactform' => [
  *     'class' => 'contactform\Module',
  *     'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
@@ -43,6 +43,13 @@ class Module extends \luya\base\Module
      * ```
      */
     public $attributes = null;
+    
+    /**
+     * @var array An array of detail view attributes based to the {{yii\widgets\DetailView::attributes}} in order to
+     * customize the mail table which is rendered trough {{yii\widgets\DetailView}}.
+     * @since 1.0.2
+     */
+    public $detailViewAttributes;
     
     /**
      * @var array An array define the attribute labels for an attribute, internal the attribute label values

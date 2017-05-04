@@ -72,6 +72,7 @@ class DefaultController extends \luya\web\Controller
     {
     	return $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
     		'model' => $model,
+    	    'detailViewAttributes' => $this->module->detailViewAttributes,
     		'title' => $this->module->mailTitle,
     		'text' => TagParser::convertWithMarkdown($this->module->mailText),
     	]);

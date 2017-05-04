@@ -1,4 +1,5 @@
 {
+    "minimum-stability" : "rc",
     "name" : "luyadev/luya-module-contactform",
     "description" : "This module provides a very fast and secure way to create customizable contact forms.",
     "type" : "luya-module",
@@ -7,17 +8,25 @@
     "homepage" : "http://luya.io",
     "authors" : [
         {
-            "name" : "Basil",
+            "name" : "Basil Suter",
             "email" : "git@nadar.io",
             "homepage" : "https://github.com/nadar"
         }
     ],
+    "require-dev" : {
+        "luyadev/luya-testsuite" : "~1.0.0"
+    },
     "support" : {
-        "issues" : "https://github.com/luyadev/luya/issues"
+        "issues" : "https://github.com/luyadev/luya-module-contactform/issues"
     },
     "autoload" : {
         "psr-4" : {
             "luya\\contactform\\" : "src/"
+        }
+    },
+    "autoload-dev" : {
+        "psr-4" : {
+            "luya\\contactform\\tests\\" : "tests/"
         }
     },
     "extra": {
