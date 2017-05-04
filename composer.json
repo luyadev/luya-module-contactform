@@ -1,5 +1,5 @@
 {
-    "minimum-stability" : "rc",
+    "minimum-stability" : "RC",
     "name" : "luyadev/luya-module-contactform",
     "description" : "This module provides a very fast and secure way to create customizable contact forms.",
     "type" : "luya-module",
