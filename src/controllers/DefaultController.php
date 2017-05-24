@@ -9,7 +9,7 @@ use luya\TagParser;
 use yii\base\InvalidConfigException;
 
 class DefaultController extends \luya\web\Controller
-{   
+{
     /**
      * Index Action
      *
@@ -48,8 +48,8 @@ class DefaultController extends \luya\web\Controller
             
             if ($mail->send()) {
                 if ($this->module->sendToUserEmail) {
-                	$sendToUserMail = $this->module->sendToUserEmail;
-                	Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model))->address($model->$sendToUserMail)->send();
+                    $sendToUserMail = $this->module->sendToUserEmail;
+                    Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model))->address($model->$sendToUserMail)->send();
                 }
                 
                 // callback eval
@@ -60,9 +60,8 @@ class DefaultController extends \luya\web\Controller
                 Yii::$app->session->setFlash('contactform_success');
                 
                 return $this->refresh();
-                
             } else {
-            	throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
+                throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
             }
         } else {
             // as the toolbar maybe try's to re render this part of the controller.
@@ -76,11 +75,11 @@ class DefaultController extends \luya\web\Controller
     
     public function generateMailMessage($model)
     {
-    	return $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
-    		'model' => $model,
-    	    'detailViewAttributes' => $this->module->detailViewAttributes,
-    		'title' => $this->module->mailTitle,
-    		'text' => TagParser::convertWithMarkdown($this->module->mailText),
-    	]);
+        return $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
+            'model' => $model,
+            'detailViewAttributes' => $this->module->detailViewAttributes,
+            'title' => $this->module->mailTitle,
+            'text' => TagParser::convertWithMarkdown($this->module->mailText),
+        ]);
     }
 }

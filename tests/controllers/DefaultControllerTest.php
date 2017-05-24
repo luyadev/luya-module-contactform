@@ -34,7 +34,6 @@ class DefaultControllerTest extends WebApplicationTestCase
         $ctrl = new DefaultController('default', $module);
         $ctrl->layout = false;
         $this->assertSame('form', $ctrl->runAction('index'));
-        
     }
     
     public function testModuleGetterSetter()

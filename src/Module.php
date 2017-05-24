@@ -13,7 +13,7 @@ use luya\Exception;
  * ```php
  * 'contactform' => [
  *     'class' => 'contactform\Module',
- *     'mailTitle' => 'Contact Form', 
+ *     'mailTitle' => 'Contact Form',
  *     'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
  *     'rules' => [
  *         [['name', 'email', 'street', 'city', 'message'], 'required'],
@@ -22,7 +22,7 @@ use luya\Exception;
  *     'recipients' => ['admin@example.com'],
  * ],
  * ```
- * 
+ *
  * @property string $mailTitle The mail title property.
  * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null.
  * If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
@@ -106,7 +106,7 @@ class Module extends \luya\base\Module
     /**
      * @var string If you like to enable that the same email for $recipients is going to be sent to the customer which enters form provide the attribute name
      * for the email adresse from the $model configuration. Assuming you have an attribute 'email' in your configuration attributes you have to provide this name.
-     * 
+     *
      * ```php
      * 'sendToUserEmail' => 'email',
      * ```
@@ -145,32 +145,32 @@ class Module extends \luya\base\Module
     
     /**
      * Getter method for $mailTitle.
-     * 
+     *
      * @return string
      */
     public function getMailTitle()
     {
-    	if ($this->_mailTitle === null) {
-    		$this->_mailTitle = '['.Yii::$app->siteTitle.'] ' .  static::t('Contact Request');
-    	}
-    	 
-    	return $this->_mailTitle;
+        if ($this->_mailTitle === null) {
+            $this->_mailTitle = '['.Yii::$app->siteTitle.'] ' .  static::t('Contact Request');
+        }
+         
+        return $this->_mailTitle;
     }
     
     /**
      * Setter method fro $mailTitle.
-     * 
+     *
      * @param string $title The mail title text.
      */
     public function setMailTitle($title)
     {
-    	$this->_mailTitle = $title;
+        $this->_mailTitle = $title;
     }
     
     private $_replyToAttribute = null;
     
     /**
-     * 
+     *
      * @return unknown|string
      */
     public function getReplyToAttribute()
@@ -193,7 +193,7 @@ class Module extends \luya\base\Module
     }
     
     /**
-     * 
+     *
      * @param unknown $attributeName
      */
     public function setReplyToAttribute($attributeName)

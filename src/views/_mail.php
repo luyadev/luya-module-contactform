@@ -1,5 +1,6 @@
 <?php
 use yii\widgets\DetailView;
+
 /* @var $model \yii\base\Model The model which holds the migration*/
 /* @var $title string The title text */
 /* @var $text string The message text */
