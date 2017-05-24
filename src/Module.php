@@ -13,6 +13,7 @@ use luya\Exception;
  * ```php
  * 'contactform' => [
  *     'class' => 'contactform\Module',
+ *     'mailTitle' => 'Contact Form', 
  *     'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
  *     'rules' => [
  *         [['name', 'email', 'street', 'city', 'message'], 'required'],
@@ -23,6 +24,8 @@ use luya\Exception;
  * ```
  * 
  * @property string $mailTitle The mail title property.
+ * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null.
+ * If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
  *
  * @author nadar
  * @since 1.0.0-beta6
@@ -130,6 +133,12 @@ class Module extends \luya\base\Module
         if ($this->recipients === null) {
             throw new Exception("The recipients attributed must be defined with an array of recipients who will recieve an email.");
         }
+        
+        Yii::$app->i18n->translations['contactform'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@'.$this->id.'/messages',
+            'fileMap' => ['contactform' => 'contactform.php'],
+        ];
     }
     
     private $_mailTitle = null;
@@ -142,7 +151,7 @@ class Module extends \luya\base\Module
     public function getMailTitle()
     {
     	if ($this->_mailTitle === null) {
-    		$this->_mailTitle = '['.Yii::$app->siteTitle.'] Contact Request';
+    		$this->_mailTitle = '['.Yii::$app->siteTitle.'] ' .  static::t('Contact Request');
     	}
     	 
     	return $this->_mailTitle;
@@ -156,5 +165,44 @@ class Module extends \luya\base\Module
     public function setMailTitle($title)
     {
     	$this->_mailTitle = $title;
-    }    
+    }
+    
+    private $_replyToAttribute = null;
+    
+    /**
+     * 
+     * @return unknown|string
+     */
+    public function getReplyToAttribute()
+    {
+        if ($this->_replyToAttribute === null) {
+            if ($this->sendToUserEmail) {
+                $this->_replyToAttribute = $this->sendToUserEmail;
+            } else {
+                // try to auto detected email attribute from attributes last
+                foreach (['email', 'mail', 'emailaddresse', 'email_address'] as $mail) {
+                    if (in_array($mail, $this->attributes)) {
+                        $this->_replyToAttribute = $mail;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return $this->_replyToAttribute;
+    }
+    
+    /**
+     * 
+     * @param unknown $attributeName
+     */
+    public function setReplyToAttribute($attributeName)
+    {
+        $this->_replyToAttribute = $attributeName;
+    }
+    
+    public static function t($message, array $params = [])
+    {
+        return Yii::t('contactform', $message, $params);
+    }
 }

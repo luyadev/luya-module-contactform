@@ -5,6 +5,7 @@ namespace luya\contactform\tests\controller;
 use Yii;
 use luya\testsuite\cases\WebApplicationTestCase;
 use luya\contactform\controllers\DefaultController;
+use luya\contactform\Module;
 
 class DefaultControllerTest extends WebApplicationTestCase
 {
@@ -34,5 +35,35 @@ class DefaultControllerTest extends WebApplicationTestCase
         $ctrl->layout = false;
         $this->assertSame('form', $ctrl->runAction('index'));
         
+    }
+    
+    public function testModuleGetterSetter()
+    {
+        $module = \Yii::$app->getModule('contactform');
+        /* @var \luya\contactform\Module $module */
+        
+        $module->attributes = ['foo'];
+        
+        $this->assertNull($module->replyToAttribute);
+        
+        $module->attributes = ['email', 'mail'];
+        
+        $this->assertSame('email', $module->replyToAttribute);
+        
+        $module->replyToAttribute = 'foobar';
+        
+        $this->assertSame('foobar', $module->replyToAttribute);
+    }
+
+    public function testTranslation()
+    {
+        $this->assertSame('foo', Module::t('foo'));
+        
+        $module = \Yii::$app->getModule('contactform');
+        /* @var \luya\contactform\Module $module */
+        
+        Yii::$app->language = 'de';
+        $this->assertSame('Kontakt Anfrage', Module::t('Contact Request'));
+        $this->assertSame('[LUYA Application] Kontakt Anfrage', $module->mailTitle);
     }
 }

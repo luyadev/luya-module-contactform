@@ -23,6 +23,7 @@ add the contact form module to your config:
     // ...
     'contactform' => [
         'class' => 'luya\contactform\Module',
+        'mailTitle' => 'Contact Form',
         'attributes' => [
             'name', 'email', 'street', 'city', 'tel', 'message',
         ],

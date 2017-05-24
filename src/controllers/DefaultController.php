@@ -41,6 +41,11 @@ class DefaultController extends \luya\web\Controller
                 $mail->address($recipientMail);
             }
             
+            if ($this->module->replyToAttribute) {
+                $replyToAttribute = $this->module->replyToAttribute;
+                $mail->mailer->addReplyTo($model->$replyToAttribute);
+            }
+            
             if ($mail->send()) {
                 if ($this->module->sendToUserEmail) {
                 	$sendToUserMail = $this->module->sendToUserEmail;
@@ -55,6 +60,7 @@ class DefaultController extends \luya\web\Controller
                 Yii::$app->session->setFlash('contactform_success');
                 
                 return $this->refresh();
+                
             } else {
             	throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
             }
