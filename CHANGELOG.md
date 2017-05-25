@@ -3,6 +3,12 @@ LUYA MODULE CONTACTFORM CHANGELOG
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+1.0.3 (25. May 2017)
+-------------------
+
++ [#5](https://github.com/luyadev/luya-module-contactform/issues/5) ReplyTo will auto detected.
++ Prepared Module for translations and added German language.
+
 1.0.2 (4. May 2017)
 ------------------
 
