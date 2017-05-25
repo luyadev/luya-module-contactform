@@ -49,7 +49,7 @@ To defined the attribute labels you can configure the module as followed:
 
 By default LUYA will wrap the value into the `Yii::t('app', $value)` functions so you are able to translate the attributes labels. The above exmaple would look like this `Yii::t('app', 'E-Mail')`.
 
-#### Integrate the Module
+#### Integrate the Module
 
 In order to use the module inside the LUYA CMS, just pick the `Module Block` and drag the block into the page. After droped the block edit the module block and picke the `contactform` module. This will then maybe throw an exception that there is no view file. In order to create the view file follow the next section.
 
@@ -116,7 +116,7 @@ You can define a anonmys function which will be trigger **after success**, the f
 ];
 ```
 
-#### Advanced configuration
+#### Advanced configuration
 
 |attribte 	|example
 |---		|---
