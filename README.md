@@ -118,8 +118,8 @@ You can define a anonmys function which will be trigger **after success**, the f
 
 #### Advanced configuration
 
-|attribte 	|example
-|---		|---
+|attribte     |example
+|---        |---
 |`mailTitle`|The mail title is also known as the mail subject
 |`mailText`|This is a message which can be used for the mail body as intro, markdown parsing is enabled by default. 
 |`sendToUserEmail`|If enabled the mail will also sent to the user how has submited the mail, configure the property with the mail field from the model.
