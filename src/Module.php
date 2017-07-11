@@ -12,7 +12,7 @@ use luya\Exception;
  *
  * ```php
  * 'contactform' => [
- *     'class' => 'contactform\Module',
+ *     'class' => 'luya\contactform\Module',
  *     'mailTitle' => 'Contact Form',
  *     'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
  *     'rules' => [
@@ -114,7 +114,7 @@ class Module extends \luya\base\Module
     public $sendToUserEmail = false;
     
     /**
-     * @var string Markdown enabled text which can be prepand to the E-Mail Data body.
+     * @var string Markdown enabled text which can be prepand to the e-mail sent body.
      */
     public $mailText = null;
     
@@ -170,8 +170,9 @@ class Module extends \luya\base\Module
     private $_replyToAttribute = null;
     
     /**
+     * Getter method for replyToAttribute
      *
-     * @return unknown|string
+     * @return string Returns the auto evaled replyToAttribute or used the value from setter method.
      */
     public function getReplyToAttribute()
     {
@@ -193,14 +194,22 @@ class Module extends \luya\base\Module
     }
     
     /**
+     * Setter method for replyToAttribute.
      *
-     * @param unknown $attributeName
+     * @param string $attributeName The reply to attribute name
      */
     public function setReplyToAttribute($attributeName)
     {
         $this->_replyToAttribute = $attributeName;
     }
     
+    /**
+     * Translation Method for Contact Form.
+     *
+     * @param string $message The message to translate.
+     * @param array $params Parameters to pass to the translation message.
+     * @return string
+     */
     public static function t($message, array $params = [])
     {
         return Yii::t('contactform', $message, $params);

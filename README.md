@@ -7,8 +7,7 @@
 
 This module provides a very fast and secure way to create customizable contact forms.
 
-Installation
-----
+## Installation
 
 Require the contact module via composer
 

@@ -8,6 +8,11 @@ use luya\Exception;
 use luya\TagParser;
 use yii\base\InvalidConfigException;
 
+/**
+ * Contact Form Default Controller.
+ *
+ * @author Basil Suter <basil@nadar.io>
+ */
 class DefaultController extends \luya\web\Controller
 {
     /**
@@ -73,6 +78,11 @@ class DefaultController extends \luya\web\Controller
         ]);
     }
     
+    /**
+     * Generate E-Mail Message
+     * @param \yii\base\Model $model
+     * @return string The rendered Html content.
+     */
     public function generateMailMessage($model)
     {
         return $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
