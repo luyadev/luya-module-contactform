@@ -115,6 +115,44 @@ You can define a anonmys function which will be trigger **after success**, the f
 ];
 ```
 
+
+#### Odering fields in email
+
+You can oder the fields in the mail wich will be send to the contact form recipient.
+
+```php
+'modules' => [
+    // ...
+    'contactform' => [
+        // ...
+        'detailViewAttributes' => [
+            [
+                'attribute' => 'title',
+                'value' => function($model) {
+                    return $model->title == 1 ? 'Miss' : 'Mister';
+                },
+            ],
+            ['attribute' => 'first_name'],
+            ['attribute' => 'last_name'],
+            ['attribute' => 'institution'],     
+            ['attribute' => 'street'],
+            ['attribute' => 'postalcode'],
+            ['attribute' => 'location'],
+            ['attribute' => 'country'],
+            ['attribute' => 'phone'],
+            ['attribute' => 'email'],
+            ['attribute' => 'message'],
+            [
+                'attribute' => 'newsletter',
+                'value' => function($model) {
+                    return $model->newsletter == 1 ? 'Yes' : 'No';
+                },
+            ],
+        ],
+    ],
+];
+```
+
 #### Advanced configuration
 
 |attribte     |example
