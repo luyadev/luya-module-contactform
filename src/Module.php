@@ -93,7 +93,7 @@ class Module extends \luya\base\Module
     
     /**
      *@var array An array with all recipients the mail should be sent on success, recipients will be assigned via
-     * {{\luya\components\Mail::adresses}} method of the mailer function.
+     * {{\luya\components\Mail::addresses()}} method of the mailer function.
      */
     public $recipients = null;
     
