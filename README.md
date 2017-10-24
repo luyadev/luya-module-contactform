@@ -157,6 +157,6 @@ For short and small forms this notation could be used as well:
 |attribte     |example
 |---        |---
 |`mailTitle`|The mail title is also known as the mail subject
-|`mailText`|This is a message which can be used for the mail body as intro, markdown parsing is enabled by default. 
-|`sendToUserEmail`|If enabled the mail will also sent to the user how has submited the mail, configure the property with the mail field from the model.
+|`mailText`|This is a message which can be used as intro for the mail body. Markdown parsing is enabled by default. 
+|`sendToUserEmail`|If enabled, the mail will also be sent to the user who has submitted the mail, configure the property with the mail field from the model.
 |`callback`|An anyonymus function find the model argument in order to trigger custom functions.
