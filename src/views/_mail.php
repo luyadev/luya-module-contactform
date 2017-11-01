@@ -19,7 +19,6 @@ use yii\widgets\DetailView;
         'border' => 0,
     ],
     'template' => function ($attribute, $index, $widget) {
-        
         $value = is_array($attribute['value']) ? implode(", ", $attribute['value']): $attribute['value'];
         
         return strtr('<tr><th width="150" style="border-bottom:1px solid #F0F0F0">{label}</th><td style="border-bottom:1px solid #F0F0F0">{value}</td></tr>', [
