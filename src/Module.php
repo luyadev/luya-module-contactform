@@ -49,7 +49,8 @@ class Module extends \luya\base\Module
     
     /**
      * @var array An array of detail view attributes based to the {{yii\widgets\DetailView::attributes}} in order to
-     * customize the mail table which is rendered trough {{yii\widgets\DetailView}}.
+     * customize the mail table which is rendered trough {{yii\widgets\DetailView}}. If no value is provided, 
+     * the $attributes property will be take by default in order to generate the DetailView for the Email.
      * @since 1.0.2
      */
     public $detailViewAttributes;
