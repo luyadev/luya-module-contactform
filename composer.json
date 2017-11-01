@@ -14,7 +14,8 @@
         }
     ],
     "require-dev" : {
-        "luyadev/luya-testsuite" : "~1.0.0"
+        "luyadev/luya-testsuite" : "~1.0.0",
+        "luyadev/luya-core" : "^1.0@dev"
     },
     "support" : {
         "issues" : "https://github.com/luyadev/luya-module-contactform/issues"

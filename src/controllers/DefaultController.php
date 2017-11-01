@@ -7,6 +7,7 @@ use luya\base\DynamicModel;
 use luya\Exception;
 use luya\TagParser;
 use yii\base\InvalidConfigException;
+use yii\base\Model;
 
 /**
  * Contact Form Default Controller.
@@ -83,7 +84,7 @@ class DefaultController extends \luya\web\Controller
      * @param \yii\base\Model $model
      * @return string The rendered Html content.
      */
-    public function generateMailMessage($model)
+    public function generateMailMessage(Model $model)
     {
         return $this->renderFile('@'.$this->module->id.'/views/_mail.php', [
             'model' => $model,

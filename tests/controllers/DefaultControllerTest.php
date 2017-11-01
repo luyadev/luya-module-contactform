@@ -6,6 +6,7 @@ use Yii;
 use luya\testsuite\cases\WebApplicationTestCase;
 use luya\contactform\controllers\DefaultController;
 use luya\contactform\Module;
+use luya\base\DynamicModel;
 
 class DefaultControllerTest extends WebApplicationTestCase
 {
@@ -64,5 +65,31 @@ class DefaultControllerTest extends WebApplicationTestCase
         Yii::$app->language = 'de';
         $this->assertSame('Kontakt Anfrage', Module::t('Contact Request'));
         $this->assertSame('[LUYA Application] Kontakt Anfrage', $module->mailTitle);
+    }
+    
+    public function testEmailMessage()
+    {
+        $model = new DynamicModel(['foo']);
+        $model->foo = 'bar';
+        
+        $mail = <<<EOT
+<table id="w0" style="width:100%" cellpadding="5" cellpsacing="2" border="0"><tr><th width="150" style="border-bottom:1px solid #F0F0F0">Foo</th><td style="border-bottom:1px solid #F0F0F0">bar</td></tr></table>
+EOT;
+        
+        $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
+        $this->assertContains($mail, $ctrl->generateMailMessage($model));
+    }
+    
+    public function testEmailArrayMessage()
+    {
+        $model = new DynamicModel(['foo']);
+        $model->foo = ['bar', 'foo'];
+        
+        $mail = <<<EOT
+<table id="w1" style="width:100%" cellpadding="5" cellpsacing="2" border="0"><tr><th width="150" style="border-bottom:1px solid #F0F0F0">Foo</th><td style="border-bottom:1px solid #F0F0F0">bar, foo</td></tr></table>
+EOT;
+        
+        $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
+        $this->assertContains($mail, $ctrl->generateMailMessage($model));
     }
 }
