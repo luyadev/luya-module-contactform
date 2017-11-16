@@ -69,10 +69,10 @@ use yii\helpers\Html;
 
 ?>
 
-<? if (Yii::$app->session->getFlash('contactform_success')): ?>
+<?php if (Yii::$app->session->getFlash('contactform_success')): ?>
     <div class="alert alert-success">The form has been submited successfull.</div>
-<? else: ?>
-    <? $form = ActiveForm::begin(); ?>
+<?php else: ?>
+    <?php $form = ActiveForm::begin(); ?>
     
     <?= $form->field($model, 'name'); ?>
     <?= $form->field($model, 'email'); ?>
@@ -83,8 +83,8 @@ use yii\helpers\Html;
     
     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
     
-    <? ActiveForm::end(); ?>
-<? endif; ?>
+    <?php ActiveForm::end(); ?>
+<?php endif; ?>
 ```
 
 when the form validation success the variable `$success` will be true, in addition a Yii2 flash mesage `Yii::$app->session->setFlash('contactform_success')` with the key-name `contactform_success` will be set.
