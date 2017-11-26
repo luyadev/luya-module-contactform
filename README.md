@@ -120,7 +120,21 @@ You can define a anonmys function which will be trigger **after success**, the f
 
 You can oder the fields in the mail wich will be send to the contact form recipient. This could be put before the rules in the contact form config. 
 
+For short and small forms this notation could be used as well:
+
+```php
+'modules' => [
+    // ...
+    'contactform' => [
+        // ...
+        'detailViewAttributes' => ['name', 'newsletter:bool', 'city', 'message:text:Label for Message'],    
+       // ...
+    ],
+];
+```
+
 For long and complex form we would recommend this notation:
+
 ```php
 'modules' => [
     // ...
@@ -129,24 +143,10 @@ For long and complex form we would recommend this notation:
         'detailViewAttributes' => [
             ['attribute' => 'name'],
             ['attribute' => 'email'],
-            ['attribute' => 'tel'], 
-            ['attribute' => 'street'],     
-            ['attribute' => 'city'],
+            ['attribute' => 'newsletter:bool'],
+            ['attribute' => 'city:integer'],
             ['attribute' => 'message'],
         ],       
-       // ...
-    ],
-];
-```
-
-For short and small forms this notation could be used as well:
-
-```php
-'modules' => [
-    // ...
-    'contactform' => [
-        // ...
-        'detailViewAttributes' => ['name', 'email','tel', 'street', 'city','message'],    
        // ...
     ],
 ];

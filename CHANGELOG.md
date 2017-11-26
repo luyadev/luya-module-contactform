@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 1.0.5 (in progress)
 -------------------
 
++ E-Mail altBody is now auto generated for not html compatible clients or libraries.
 
 
 1.0.4 (1. Nov 2017)

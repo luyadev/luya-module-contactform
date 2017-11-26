@@ -55,7 +55,12 @@ class DefaultController extends \luya\web\Controller
             if ($mail->send()) {
                 if ($this->module->sendToUserEmail) {
                     $sendToUserMail = $this->module->sendToUserEmail;
-                    Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model))->address($model->$sendToUserMail)->send();
+                    $mailer = Yii::$app->mail;
+                    $mailer->altBody = $this->generateMailAltBody($model);
+                    $mailer->subject($this->module->mailTitle);
+                    $mailer->body($this->generateMailMessage($model));
+                    $mailer->address($model->$sendToUserMail);
+                    $mailer->send();
                 }
                 
                 // callback eval
@@ -92,5 +97,21 @@ class DefaultController extends \luya\web\Controller
             'title' => $this->module->mailTitle,
             'text' => TagParser::convertWithMarkdown($this->module->mailText),
         ]);
+    }
+    
+    /**
+     * Generate E-Mail Alt Body without html data.
+     * 
+     * @param Model $model
+     * @return string|NULL|string
+     */
+    public function generateMailAltBody(Model $model)
+    {
+    	return $this->renderFile('@'.$this->module->id.'/views/_altmail.php', [
+    		'model' => $model,
+    		'detailViewAttributes' => $this->module->detailViewAttributes,
+    		'title' => $this->module->mailTitle,
+    		'text' => strip_tags($this->module->mailText),
+    	]);
     }
 }

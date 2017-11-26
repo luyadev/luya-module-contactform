@@ -92,4 +92,32 @@ EOT;
         $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
         $this->assertContains($mail, $ctrl->generateMailMessage($model));
     }
+    
+    public function testGenerateMailAltBody()
+    {
+    	$model = new DynamicModel(['foo', 'labelized']);
+    	$model->foo = ['bar', 'foo'];
+    	$model->labelized = 'Content';
+    	$model->attributeLabels = ['labelized' => 'Label for Field'];
+    	
+    	$ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
+    	// in order to see the brs in tests we wrap with nl2br.
+    	$altBody = $ctrl->generateMailAltBody($model);
+    	$this->assertContains('Foo: bar, foo
+Label for Field: Content', $altBody);
+    }
+    
+    public function testGenerateMailAltBodyWithAttributesLAbels()
+    {
+    	$model = new DynamicModel(['foo']);
+    	$model->foo = false;
+    	 
+    	$module = Yii::$app->getModule('contactform');
+    	$module->detailViewAttributes = ['foo:boolean:The Label'];
+    	
+    	$ctrl = new DefaultController('default', $module);
+    	// in order to see the brs in tests we wrap with nl2br.
+    	$altBody = $ctrl->generateMailAltBody($model);
+    	$this->assertContains('The Label: No', $altBody);
+    }
 }
