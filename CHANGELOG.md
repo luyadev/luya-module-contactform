@@ -1,13 +1,11 @@
-LUYA MODULE CONTACTFORM CHANGELOG
-===
+# LUYA MODULE CONTACTFORM CHANGELOG
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
-1.0.5 (in progress)
+1.0.5 (28. Nov 2017)
 -------------------
 
 + E-Mail altBody is now auto generated for not html compatible clients or libraries.
-
 
 1.0.4 (1. Nov 2017)
 ------------------
