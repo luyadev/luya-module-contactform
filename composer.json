@@ -1,5 +1,4 @@
 {
-    "minimum-stability" : "RC",
     "name" : "luyadev/luya-module-contactform",
     "description" : "This module provides a very fast and secure way to create customizable contact forms.",
     "type" : "luya-module",
@@ -14,8 +13,7 @@
         }
     ],
     "require-dev" : {
-        "luyadev/luya-testsuite" : "~1.0.0",
-        "luyadev/luya-core" : "^1.0@dev"
+        "luyadev/luya-testsuite" : "~1.0.0"
     },
     "support" : {
         "issues" : "https://github.com/luyadev/luya-module-contactform/issues"
