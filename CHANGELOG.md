@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file. This projec
 1.0.6 (in progress)
 -------------------
 
++ [#6](https://github.com/luyadev/luya-module-contactform/issues/6) Use robots behavior, use module translation system, use system mailer replyTo.
 + [#14](https://github.com/luyadev/luya-module-contactform/issues/14) Added default views for the frontend rendering.
 
 1.0.5 (28. Nov 2017)

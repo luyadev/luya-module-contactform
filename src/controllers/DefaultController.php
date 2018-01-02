@@ -3,11 +3,11 @@
 namespace luya\contactform\controllers;
 
 use Yii;
-use luya\base\DynamicModel;
-use luya\Exception;
-use luya\TagParser;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
+use luya\base\DynamicModel;
+use luya\TagParser;
+use luya\web\filters\RobotsFilter;
 
 /**
  * Contact Form Default Controller.
@@ -16,6 +16,20 @@ use yii\base\Model;
  */
 class DefaultController extends \luya\web\Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        
+        $behaviors['robotsFilter'] = [
+            'class' => RobotsFilter::class,
+            'delay' => $this->module->spamDetectionDelay,
+        ];
+        
+        return $behaviors;
+    }
     /**
      * Index Action
      *
@@ -37,9 +51,6 @@ class DefaultController extends \luya\web\Controller
         }
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ((time() - (int) Yii::$app->session->get('renderTime', 0)) < $this->module->spamDetectionDelay) {
-                throw new Exception("We haved catched a spam contact form with the values: " . print_r($model->attributes, true));
-            }
             
             $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
             
@@ -49,7 +60,7 @@ class DefaultController extends \luya\web\Controller
             
             if ($this->module->replyToAttribute) {
                 $replyToAttribute = $this->module->replyToAttribute;
-                $mail->mailer->addReplyTo($model->$replyToAttribute);
+                $mail->addReplyTo($model->$replyToAttribute);
             }
             
             if ($mail->send()) {
@@ -74,9 +85,6 @@ class DefaultController extends \luya\web\Controller
             } else {
                 throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
             }
-        } else {
-            // as the toolbar maybe try's to re render this part of the controller.
-            Yii::$app->session->set('renderTime', time());
         }
         
         return $this->render('index', [

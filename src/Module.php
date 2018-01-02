@@ -134,12 +134,13 @@ class Module extends \luya\base\Module
         if ($this->recipients === null) {
             throw new Exception("The recipients attributed must be defined with an array of recipients who will recieve an email.");
         }
-        
-        Yii::$app->i18n->translations['contactform'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'basePath' => '@'.$this->id.'/messages',
-            'fileMap' => ['contactform' => 'contactform.php'],
-        ];
+    }
+    
+    public static function onLoad()
+    {
+        self::registerTranslation('contactform', static::staticBasePath() . '/messages', [
+            'contactform' => 'contactform.php',
+        ]);
     }
     
     private $_mailTitle = null;
@@ -213,6 +214,6 @@ class Module extends \luya\base\Module
      */
     public static function t($message, array $params = [])
     {
-        return Yii::t('contactform', $message, $params);
+        return parent::baseT('contactform', $message, $params);
     }
 }
