@@ -1,4 +1,8 @@
-# LUYA CONTACT FORM MODULE
+<p align="center">
+  <img src="https://raw.githubusercontent.com/luyadev/luya/master/docs/logo/luya-logo-0.2x.png" alt="LUYA Logo"/>
+</p>
+
+# Contactform Module
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-module-contactform/downloads)](https://packagist.org/packages/luyadev/luya-module-contactform)
@@ -22,6 +26,7 @@ add the contact form module to your config:
     // ...
     'contactform' => [
         'class' => 'luya\contactform\Module',
+        'useAppViewPath' => true, // When enabled the views will be looked up in the @app/views folder, otherwise the views shipped with the module will be used.
         'mailTitle' => 'Contact Form',
         'attributes' => [
             'name', 'email', 'street', 'city', 'tel', 'message',
