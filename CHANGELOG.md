@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.0.7 (in progress)
+
+
+
 ## 1.0.6 (2. January 2018)
 
 + [#6](https://github.com/luyadev/luya-module-contactform/issues/6) Use robots behavior, use module translation system, use system mailer replyTo.
