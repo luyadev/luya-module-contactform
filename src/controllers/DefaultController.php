@@ -44,7 +44,10 @@ class DefaultController extends \luya\web\Controller
         
         foreach ($this->module->rules as $rule) {
             if (is_array($rule) && isset($rule[0], $rule[1])) {
-                $model->addRule($rule[0], $rule[1], isset($rule[2]) ? $rule[2] : []);
+                $attributes = $rule[0];
+                $validator = $rule[1];
+                unset($rule[0], $rule[1]);
+                $model->addRule($attributes, $validator, $rule);
             } else {
                 throw new InvalidConfigException('Invalid validation rule: a rule must specify both attribute names and validator type.');
             }
