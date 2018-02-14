@@ -121,7 +121,7 @@ You can define a anonmys function which will be trigger **after success**, the f
 ```
 
 
-#### Odering fields in email
+#### Ordering fields in email
 
 You can oder the fields in the mail wich will be send to the contact form recipient. This could be put before the rules in the contact form config. 
 
