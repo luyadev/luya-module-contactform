@@ -45,7 +45,7 @@ class Module extends \luya\base\Module
      * 'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
      * ```
      */
-    public $attributes = null;
+    public $attributes;
     
     /**
      * @var array An array of detail view attributes based to the {{yii\widgets\DetailView::attributes}} in order to
@@ -90,13 +90,13 @@ class Module extends \luya\base\Module
      * }
      * ```
      */
-    public $callback = null;
+    public $callback;
     
     /**
      *@var array An array with all recipients the mail should be sent on success, recipients will be assigned via
      * {{\luya\components\Mail::addresses()}} method of the mailer function.
      */
-    public $recipients = null;
+    public $recipients;
     
     /**
      * @var int Number in seconds, if the process time is faster then `$spamDetectionDelay`, the mail will threated as spam
@@ -117,7 +117,24 @@ class Module extends \luya\base\Module
     /**
      * @var string Markdown enabled text which can be prepand to the e-mail sent body.
      */
-    public $mailText = null;
+    public $mailText;
+    
+    /**
+     * @var string An optional text which is displayed as footer in the email message.
+     * @since 1.0.8
+     */
+    public $mailFooterText;
+    
+    /**
+     * @var string The template which is used to render the email. Default template is `<h2>{title}</h2><p><i>{time}</i></p>{text}\n{table}\n{footer}` with variables:
+     * + title: Value from $mailTitle
+     * + time: Contains the timestamp of when the email is sent.
+     * + text: Value from $mailText
+     * + table: The attributes with the values from the user input.
+     * + footer: Value from $mailFooterText
+     * @since 1.0.8
+     */
+    public $mailTemplate = '<h2>{title}</h2><p><i>{time}</i></p>{text}\n{table}\n{footer}';
     
     /**
      * {@inheritDoc}

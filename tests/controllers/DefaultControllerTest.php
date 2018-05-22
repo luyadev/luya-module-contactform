@@ -24,6 +24,10 @@ class DefaultControllerTest extends WebApplicationTestCase
             ]
         ];
     }
+    
+    /**
+     * @runInSeparateProcess
+     */
     public function testController()
     {
         $module = \Yii::$app->getModule('contactform');
@@ -119,5 +123,17 @@ Label for Field: Content', $altBody);
     	// in order to see the brs in tests we wrap with nl2br.
     	$altBody = $ctrl->generateMailAltBody($model);
     	$this->assertContains('The Label: No', $altBody);
+    }
+    
+    public function testModuleMailTemplateProperty()
+    {
+        $model = new DynamicModel(['foo']);
+        $model->foo = 'bar';
+        
+        $module = Yii::$app->getModule('contactform');
+        $module->mailTitle = '-';
+        $module->mailTemplate = '<p>foo{title}bar</p>';
+        $ctrl = new DefaultController('default', $module);
+        $this->assertSame('<p>foo-bar</p>', $ctrl->generateMailMessage($model));
     }
 }

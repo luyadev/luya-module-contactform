@@ -107,6 +107,8 @@ class DefaultController extends \luya\web\Controller
             'detailViewAttributes' => $this->module->detailViewAttributes,
             'title' => $this->module->mailTitle,
             'text' => TagParser::convertWithMarkdown($this->module->mailText),
+            'template' => $this->module->mailTemplate,
+            'footerText' => $this->module->mailFooterText,
         ]);
     }
     
