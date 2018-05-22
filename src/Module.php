@@ -137,8 +137,7 @@ class Module extends \luya\base\Module
     public $mailTemplate = '<h2>{title}</h2><p><i>{time}</i></p>{text}\n{table}\n{footer}';
     
     /**
-     * {@inheritDoc}
-     * @see \luya\base\Module::init()
+     * @inheritdoc
      */
     public function init()
     {
@@ -151,13 +150,6 @@ class Module extends \luya\base\Module
         if ($this->recipients === null) {
             throw new Exception("The recipients attributed must be defined with an array of recipients who will recieve an email.");
         }
-    }
-    
-    public static function onLoad()
-    {
-        self::registerTranslation('contactform', static::staticBasePath() . '/messages', [
-            'contactform' => 'contactform.php',
-        ]);
     }
     
     private $_mailTitle = null;
@@ -220,6 +212,16 @@ class Module extends \luya\base\Module
     public function setReplyToAttribute($attributeName)
     {
         $this->_replyToAttribute = $attributeName;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public static function onLoad()
+    {
+        self::registerTranslation('contactform', static::staticBasePath() . '/messages', [
+            'contactform' => 'contactform.php',
+        ]);
     }
     
     /**
