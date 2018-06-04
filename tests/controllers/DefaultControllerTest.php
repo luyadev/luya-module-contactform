@@ -136,4 +136,18 @@ Label for Field: Content', $altBody);
         $ctrl = new DefaultController('default', $module);
         $this->assertSame('<p>foo-bar</p>', $ctrl->generateMailMessage($model));
     }
+    
+    /**
+     * @see https://github.com/luyadev/luya-module-contactform/issues/17
+     */
+    public function testGenericEmailTemplateOutput()
+    {
+        $model = new DynamicModel(['foo']);
+        $model->foo = 'bar';
+        
+        $module = Yii::$app->getModule('contactform');
+        $module->mailText = "## Hello\nParagraph\n+ foo\n+ bar";
+        $ctrl = new DefaultController('default', $module);
+        $this->assertContainsTrimmed('<h2>Hello</h2><p>Paragraph</p><ul><li>foo</li><li>bar</li></ul><table id="w5" style="width:100%" cellpadding="5" cellpsacing="2" border="0"><tr><th width="150" style="border-bottom:1px solid #F0F0F0">Foo</th><td style="border-bottom:1px solid #F0F0F0">bar</td></tr></table>', $ctrl->generateMailMessage($model));
+    }
 }

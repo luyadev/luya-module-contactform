@@ -115,26 +115,56 @@ class Module extends \luya\base\Module
     public $sendToUserEmail = false;
     
     /**
-     * @var string Markdown enabled text which can be prepand to the e-mail sent body.
+     * @var string An optional mail text which is displayed above the table with the form values. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
+     * 
+     * An example of how to use markdown and newlines in a string:
+     * 
+     * ```php
+     * 'mailText' => "## Hello\nParagraph\n+ foo\n+ bar",
+     * ```
+     * 
+     * Which would be equals to:
+     * 
+     * ```php
+     * 'mailText' => '
+     * ## Hello
+     * Paragraph
+     * + foo
+     * + bar
+     * ```
+     * 
+     * And would renderd in the email as followed:
+     * 
+     * ```php
+     * <h2>Hello</h2>
+     * <p>Paragraph</p>
+     * <ul>
+     *     <li>foo</li>
+     *     <li>bar</li>
+     * </ul>
+     * ```
      */
     public $mailText;
     
     /**
-     * @var string An optional text which is displayed as footer in the email message.
+     * @var string An optional text which is displayed as footer in the email message. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
+     * @see {{luya\contactform\Module::$mailText}}
      * @since 1.0.8
      */
     public $mailFooterText;
     
     /**
-     * @var string The template which is used to render the email. Default template is `<h2>{title}</h2><p><i>{time}</i></p>{text}\n{table}\n{footer}` with variables:
+     * @var string The template which is used to render the email. Default template is `<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}` with variables:
      * + title: Value from $mailTitle
      * + time: Contains the timestamp of when the email is sent.
      * + text: Value from $mailText
      * + table: The attributes with the values from the user input.
      * + footer: Value from $mailFooterText
+     * 
+     * Keep in mind the {text} and {footer} variables will be parsed with {{luya\TagParsers::convertWithMarkdown()}} and is therefore enclosed with a <p> tag.
      * @since 1.0.8
      */
-    public $mailTemplate = '<h2>{title}</h2><p><i>{time}</i></p>{text}\n{table}\n{footer}';
+    public $mailTemplate = "<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}";
     
     /**
      * @inheritdoc

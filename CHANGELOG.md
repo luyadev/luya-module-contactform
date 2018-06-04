@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.0.8.1 (4. June 2018)
+
++ [#17](https://github.com/luyadev/luya-module-contactform/issues/17) Fixed bug with wrong declared new line chars.
+
 ## 1.0.8 (22. May 2018)
 
 + [#16](https://github.com/luyadev/luya-module-contactform/issues/16) Added option to configure footer message and mail template.

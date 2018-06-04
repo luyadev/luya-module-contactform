@@ -108,7 +108,7 @@ class DefaultController extends \luya\web\Controller
             'title' => $this->module->mailTitle,
             'text' => TagParser::convertWithMarkdown($this->module->mailText),
             'template' => $this->module->mailTemplate,
-            'footerText' => $this->module->mailFooterText,
+            'footerText' => TagParser::convertWithMarkdown($this->module->mailFooterText),
         ]);
     }
     
