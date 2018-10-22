@@ -89,10 +89,16 @@ class DefaultController extends \luya\web\Controller
                 throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
             }
         }
-        
-        return $this->render('index', [
-            'model' => $model,
-        ]);
+
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('index', [
+                'model' => $model
+            ]);
+        } else {
+            return $this->render('index', [
+                'model' => $model,
+            ]);
+        }
     }
     
     /**
