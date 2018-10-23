@@ -83,7 +83,13 @@ class DefaultController extends \luya\web\Controller
                 }
                 
                 Yii::$app->session->setFlash('contactform_success');
-                
+
+                if (Yii::$app->request->isAjax) {
+                    return $this->renderAjax("index", [
+                        "model" => $model
+                    ]);
+                }
+
                 return $this->refresh();
             } else {
                 throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');

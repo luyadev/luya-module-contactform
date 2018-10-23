@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.9 (23. October 2018)
 
-+ [#20](https://github.com/luyadev/luya-module-contactform/issues/20) Use renderAjax when calling via an ajax request.
++ [#19](https://github.com/luyadev/luya-module-contactform/pull/19) Use renderAjax when calling via an ajax request.
 
 ## 1.0.8.1 (4. June 2018)
 
