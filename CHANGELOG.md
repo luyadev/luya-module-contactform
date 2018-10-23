@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.0.9 (23. October 2018)
+
++ [#20](https://github.com/luyadev/luya-module-contactform/issues/20) Use renderAjax when calling via an ajax request.
+
 ## 1.0.8.1 (4. June 2018)
 
 + [#17](https://github.com/luyadev/luya-module-contactform/issues/17) Fixed bug with wrong declared new line chars.
