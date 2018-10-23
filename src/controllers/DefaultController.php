@@ -94,11 +94,10 @@ class DefaultController extends \luya\web\Controller
             return $this->renderAjax('index', [
                 'model' => $model
             ]);
-        } else {
-            return $this->render('index', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
     
     /**
