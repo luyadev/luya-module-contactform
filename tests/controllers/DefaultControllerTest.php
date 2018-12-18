@@ -21,8 +21,59 @@ class DefaultControllerTest extends WebApplicationTestCase
                     'attributes' => ['firstname', 'lastname', 'email'],
                     'recipients' => ['test@luya.io'],
                 ],
+                'contactformstring' => [
+                    'class' => 'luya\contactform\Module',
+                    'attributes' => ['firstname', 'lastname', 'email'],
+                    'recipients' => 'test@luya.io',
+                ],
+                'callableform' => [
+                    'class' => 'luya\contactform\Module',
+                    'attributes' => ['firstname', 'lastname', 'email'],
+                    'recipients' => function($model) {
+                        if ($model->firstname == 'barfoo') {
+                            return 'barfoo@luya.io';
+                        }
+
+                        return 'another@luya.io';
+                    }
+                ],
             ]
         ];
+    }
+
+    public function testStringRecipient()
+    {
+        $module = \Yii::$app->getModule('contactformstring');
+        /** @var \luya\contactform\Module $module */
+        
+        $this->assertInstanceOf('luya\contactform\Module', $module);
+        $this->assertSame('[LUYA Application] Contact Request', $module->mailTitle);
+        
+        $ctrl = new DefaultController('default', $module);
+        $model = new DynamicModel(['firstname', 'lastname']);
+        $this->assertSame(['test@luya.io'], $ctrl->ensureRecipients($model));
+    }
+
+    /**
+     * @runInSeparateProcess
+     */
+    public function testCallableRecipients()
+    {
+        $module = \Yii::$app->getModule('callableform');
+        /** @var \luya\contactform\Module $module */
+        
+        $this->assertInstanceOf('luya\contactform\Module', $module);
+        $this->assertSame('[LUYA Application] Contact Request', $module->mailTitle);
+        
+        $ctrl = new DefaultController('default', $module);
+
+        $model = new DynamicModel(['firstname', 'lastname']);
+        $model->addRule(['firstname', 'lastname'], 'string');
+        $model->firstname = 'john';
+        $model->lastname = 'doe';
+        $this->assertSame(['another@luya.io'], $ctrl->ensureRecipients($model));
+        $model->firstname = 'barfoo';
+        $this->assertSame(['barfoo@luya.io'], $ctrl->ensureRecipients($model));
     }
     
     /**

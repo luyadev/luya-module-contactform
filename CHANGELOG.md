@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ## 1.0.10 (in progress)
 
++ [#22](https://github.com/luyadev/luya-module-contactform/issues/22) Added option for recipient callback with model context.
 + Setup travis and code climate
 
 ## 1.0.9 (23. October 2018)

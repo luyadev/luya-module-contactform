@@ -93,8 +93,19 @@ class Module extends \luya\base\Module
     public $callback;
     
     /**
-     *@var array An array with all recipients the mail should be sent on success, recipients will be assigned via
-     * {{\luya\components\Mail::addresses()}} method of the mailer function.
+     * @var array|string|callable An array or string with all recipients the mail should be sent on success, recipients will be assigned via
+     * {{\luya\components\Mail::addresses()}} method of the mailer function. Since version 1.0.10 its also possible
+     * to provide a callable function which must return a string or an array which is then passed to adresses().
+     * 
+     * ```php
+     * 'recipients' => function($model) {
+     *     if ($model->xyz) {
+     *         return 'thisrecipient@luya.io';
+     *     }
+     * 
+     *     return 'anotherrecipient@luya.io';
+     * }
+     * ```
      */
     public $recipients;
     

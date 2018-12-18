@@ -56,10 +56,9 @@ class DefaultController extends \luya\web\Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             
             $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
-            
-            foreach ($this->module->recipients as $recipientMail) {
-                $mail->address($recipientMail);
-            }
+
+            $recipients = $this->ensureRecipients($model);
+            $mail->addresses($recipients);
             
             if ($this->module->replyToAttribute) {
                 $replyToAttribute = $this->module->replyToAttribute;
@@ -104,6 +103,22 @@ class DefaultController extends \luya\web\Controller
         return $this->render('index', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Ensure recipients from callable or array/string notation.
+     *
+     * @param Model $model
+     * @return string
+     * @since 1.0.10
+     */
+    public function ensureRecipients(Model $model)
+    {
+        if (is_callable($this->module->recipients)) {
+            return (array) call_user_func($this->module->recipients, $model);
+        }
+
+        return (array) $this->module->recipients;
     }
     
     /**
