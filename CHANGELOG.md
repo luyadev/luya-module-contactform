@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.0.10 (in progress)
+
++ Setup travis and code climate
+
 ## 1.0.9 (23. October 2018)
 
 + [#19](https://github.com/luyadev/luya-module-contactform/pull/19) Use renderAjax when calling via an ajax request.

@@ -5,6 +5,9 @@
 # Contactform Module
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
+[![Build Status](https://travis-ci.org/luyadev/luya-module-contactform.svg?branch=master)](https://travis-ci.org/luyadev/luya-module-contactform)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/01672f2d0b93a17a156b/test_coverage)](https://codeclimate.com/github/luyadev/luya-module-contactform/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/01672f2d0b93a17a156b/maintainability)](https://codeclimate.com/github/luyadev/luya-module-contactform/maintainability)
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-module-contactform/downloads)](https://packagist.org/packages/luyadev/luya-module-contactform)
 [![Latest Stable Version](https://poser.pugx.org/luyadev/luya-module-contactform/v/stable)](https://packagist.org/packages/luyadev/luya-module-contactform)
 [![Join the chat at https://gitter.im/luyadev/luya](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/luyadev/luya)
