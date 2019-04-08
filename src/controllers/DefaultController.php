@@ -8,6 +8,7 @@ use yii\base\Model;
 use luya\base\DynamicModel;
 use luya\TagParser;
 use luya\web\filters\RobotsFilter;
+use yii\di\Instance;
 
 /**
  * Contact Form Default Controller.
@@ -38,21 +39,24 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionIndex()
     {
-        // create dynamic model
-        $model = new DynamicModel($this->module->attributes);
-        $model->attributeLabels = $this->module->attributeLabels;
-        
-        foreach ($this->module->rules as $rule) {
-            if (is_array($rule) && isset($rule[0], $rule[1])) {
-                $attributes = $rule[0];
-                $validator = $rule[1];
-                unset($rule[0], $rule[1]);
-                $model->addRule($attributes, $validator, $rule);
-            } else {
-                throw new InvalidConfigException('Invalid validation rule: a rule must specify both attribute names and validator type.');
+        if ($this->module->modelClass) {
+            // generate the model object from property
+            $model = Instance::ensure($this->module->modelClass, 'yii\base\Model');
+        } else {
+            // use the dynamic model
+            $model = new DynamicModel($this->module->attributes);
+            $model->attributeLabels = $this->module->attributeLabels;
+            foreach ($this->module->rules as $rule) {
+                if (is_array($rule) && isset($rule[0], $rule[1])) {
+                    $attributes = $rule[0];
+                    $validator = $rule[1];
+                    unset($rule[0], $rule[1]);
+                    $model->addRule($attributes, $validator, $rule);
+                } else {
+                    throw new InvalidConfigException('Invalid validation rule: a rule must specify both attribute names and validator type.');
+                }
             }
         }
-        
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             
             $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));

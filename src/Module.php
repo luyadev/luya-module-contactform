@@ -27,8 +27,8 @@ use luya\Exception;
  * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null.
  * If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
  *
- * @author nadar
- * @since 1.0.0-beta6
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class Module extends \luya\base\Module
 {
@@ -38,6 +38,19 @@ class Module extends \luya\base\Module
      */
     public $useAppViewPath = true;
     
+    /**
+     * @var string|array You can define a model class which is used instead of $attributes, $attributeLabels and $rules
+     * is defined those properties has no effect `$attributes`, `$rules` and `$attributeLabels`.
+     * 
+     * ```php
+     * 'modelClass' => 'app\models\MyFormModel',
+     * ```
+     * The model must be an instance of {{yii\base\Model}}.
+     * 
+     * @since 1.0.11
+     */
+    public $modelClass;
+
     /**
      * @var array An array containing all the attributes for this model
      *
