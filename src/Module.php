@@ -23,7 +23,8 @@ use luya\Exception;
  * ],
  * ```
  *
- * @property string $mailTitle The mail title property.
+ * @property string|callable $mailTitle The mail title property. See {{setMailTitle()}}.
+ * @property string|callable  $mailText  An optional mail text which is displayed above the table with the form values. See {{setMailText()}}.
  * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null.
  * If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
  *
@@ -137,9 +138,11 @@ class Module extends \luya\base\Module
      * ```
      */
     public $sendToUserEmail = false;
-    
+
+    private $_mailText;
+
     /**
-     * @var string An optional mail text which is displayed above the table with the form values. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
+     * An optional mail text which is displayed above the table with the form values. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
      * 
      * An example of how to use markdown and newlines in a string:
      * 
@@ -167,8 +170,28 @@ class Module extends \luya\base\Module
      *     <li>bar</li>
      * </ul>
      * ```
+     * 
+     * @param string|callable $mailText Mail text
+     * @since 1.0.11
      */
-    public $mailText;
+    public function setMailText($mailText)
+    {
+        $this->_mailText = $mailText;
+    }
+
+    /**
+     * Getter method of mailtext.
+     * 
+     * @since 1.0.11
+     */
+    public function getMailText()
+    {
+        if (is_callable($this->_mailText)) {
+            return call_user_func($this->_mailText);
+        }
+
+        return $this->_mailText;
+    }
     
     /**
      * @var string An optional text which is displayed as footer in the email message. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
@@ -217,6 +240,11 @@ class Module extends \luya\base\Module
     {
         if ($this->_mailTitle === null) {
             $this->_mailTitle = '['.Yii::$app->siteTitle.'] ' .  static::t('Contact Request');
+        }
+
+        // if its a callable, evaluate the title when accessing.
+        if (is_callable($this->_mailTitle)) {
+            $this->_mailTitle = call_user_func($this->_mailTitle);
         }
          
         return $this->_mailTitle;

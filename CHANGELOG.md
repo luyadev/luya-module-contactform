@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
-## 1.0.11
+## 1.0.11 (in progress)
 
 + [#23](https://github.com/luyadev/luya-module-contactform/issues/23) Added new modelClass propertie to define a path to a given model instead of define the model on-th-fly.
 
