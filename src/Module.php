@@ -197,7 +197,7 @@ class Module extends \luya\base\Module
     {
         parent::init();
         
-        if ($this->attributes === null) {
+        if (!$this->modelClass && $this->attributes === null) {
             throw new Exception("The attributes attributed must be defined with an array of available attributes.");
         }
         
