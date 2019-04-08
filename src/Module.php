@@ -221,11 +221,11 @@ class Module extends \luya\base\Module
         parent::init();
         
         if (!$this->modelClass && $this->attributes === null) {
-            throw new Exception("The attributes attributed must be defined with an array of available attributes.");
+            throw new Exception("The `attributes` property must be defined with an array of available attributes.");
         }
         
         if ($this->recipients === null) {
-            throw new Exception("The recipients attributed must be defined with an array of recipients who will recieve an email.");
+            throw new Exception("The `recipients` property must be defined with an array of recipients who will recieve an email.");
         }
     }
     
@@ -253,7 +253,7 @@ class Module extends \luya\base\Module
     /**
      * Setter method fro $mailTitle.
      *
-     * @param string $title The mail title text.
+     * @param string|callable $title The mail title text.
      */
     public function setMailTitle($title)
     {

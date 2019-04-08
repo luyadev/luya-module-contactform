@@ -26,6 +26,17 @@ class DefaultControllerTest extends WebApplicationTestCase
                     'attributes' => ['firstname', 'lastname', 'email'],
                     'recipients' => 'test@luya.io',
                 ],
+                'contactcallable' => [
+                    'class' => 'luya\contactform\Module',
+                    'attributes' => ['firstname', 'lastname', 'email'],
+                    'recipients' => 'test@luya.io',
+                    'mailText' => function() {
+                        return 'callable text';
+                    },
+                    'mailTitle' => function() {
+                        return 'callable title';
+                    }
+                ],
                 'callableform' => [
                     'class' => 'luya\contactform\Module',
                     'attributes' => ['firstname', 'lastname', 'email'],
@@ -52,6 +63,20 @@ class DefaultControllerTest extends WebApplicationTestCase
         $ctrl = new DefaultController('default', $module);
         $model = new DynamicModel(['firstname', 'lastname']);
         $this->assertSame(['test@luya.io'], $ctrl->ensureRecipients($model));
+    }
+
+    public function testClosureTextAndTitle()
+    {
+        $mod = new Module('contact', null, ['modelClass' => 'app/models/Stuff', 'recipients' => 'none']);
+        $mod->mailTitle = function() {
+            return 'mailtitle';
+        };
+        $mod->mailText = function() {
+            return 'mailtext';
+        };
+
+        $this->assertSame('mailtitle', $mod->mailTitle);
+        $this->assertSame('mailtext', $mod->mailText);
     }
 
     /**
