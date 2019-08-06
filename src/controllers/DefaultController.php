@@ -65,13 +65,11 @@ class DefaultController extends \luya\web\Controller
             $mail->addresses($recipients);
             
             if ($this->module->replyToAttribute) {
-                $replyToAttribute = $this->module->replyToAttribute;
                 $mail->addReplyTo($model->$replyToAttribute);
             }
             
             if ($mail->send()) {
                 if ($this->module->sendToUserEmail) {
-                    $sendToUserMail = $this->module->sendToUserEmail;
                     $mailer = Yii::$app->mail;
                     $mailer->altBody = $this->generateMailAltBody($model);
                     $mailer->subject($this->module->mailTitle);
@@ -113,7 +111,7 @@ class DefaultController extends \luya\web\Controller
      * Ensure recipients from callable or array/string notation.
      *
      * @param Model $model
-     * @return string
+     * @return array
      * @since 1.0.10
      */
     public function ensureRecipients(Model $model)
@@ -146,7 +144,7 @@ class DefaultController extends \luya\web\Controller
      * Generate E-Mail Alt Body without html data.
      * 
      * @param Model $model
-     * @return string|NULL|string
+     * @return string The ald body content
      */
     public function generateMailAltBody(Model $model)
     {
