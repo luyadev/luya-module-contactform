@@ -275,7 +275,7 @@ class Module extends \luya\base\Module
             } else {
                 // try to auto detected email attribute from attributes last
                 foreach (['email', 'mail', 'emailaddresse', 'email_address'] as $mail) {
-                    if (in_array($mail, $this->attributes)) {
+                    if (isset($this->attributes) && in_array($mail, $this->attributes)) {
                         $this->_replyToAttribute = $mail;
                         break;
                     }
