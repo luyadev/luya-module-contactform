@@ -16,6 +16,8 @@ use luya\web\filters\RobotsFilter;
  */
 class DefaultController extends \luya\web\Controller
 {
+    const CONTACTFORM_SUCCESS_FLASH = 'contactform_success';
+
     /**
      * @inheritdoc
      */
@@ -43,9 +45,8 @@ class DefaultController extends \luya\web\Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             
             $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
-
-            $recipients = $this->ensureRecipients($model);
-            $mail->addresses($recipients);
+            $mail->altBody = $this->generateMailAltBody($model);
+            $mail->addresses($this->ensureRecipients($model));
             
             if ($this->module->replyToAttribute) {
                 $replyToAttribute = $this->module->replyToAttribute;
@@ -53,22 +54,21 @@ class DefaultController extends \luya\web\Controller
             }
             
             if ($mail->send()) {
+                // evulate the callback
+                if (is_callable($this->module->callback)) {
+                    call_user_func($this->module->callback, $model);
+                }
+                // evulate whether a mail needs to be send to the user or not
                 if ($this->module->sendToUserEmail) {
                     $sendToUserMail = $this->module->sendToUserEmail;
-                    $mailer = Yii::$app->mail;
+                    // composer new mailer object
+                    $mailer = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
                     $mailer->altBody = $this->generateMailAltBody($model);
-                    $mailer->subject($this->module->mailTitle);
-                    $mailer->body($this->generateMailMessage($model));
                     $mailer->address($model->{$sendToUserMail});
                     $mailer->send();
                 }
                 
-                // callback eval
-                if (is_callable($this->module->callback)) {
-                    call_user_func($this->module->callback, $model);
-                }
-                
-                Yii::$app->session->setFlash('contactform_success');
+                Yii::$app->session->setFlash(self::CONTACTFORM_SUCCESS_FLASH);
 
                 if (Yii::$app->request->isAjax) {
                     return $this->renderAjax("index", [
@@ -77,9 +77,9 @@ class DefaultController extends \luya\web\Controller
                 }
 
                 return $this->refresh();
-            } else {
-                throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
             }
+
+            throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
         }
 
         if (Yii::$app->request->isAjax) {
@@ -87,6 +87,7 @@ class DefaultController extends \luya\web\Controller
                 'model' => $model
             ]);
         }
+
         return $this->render('index', [
             'model' => $model,
         ]);
