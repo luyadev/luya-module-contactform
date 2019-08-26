@@ -44,28 +44,14 @@ class DefaultController extends \luya\web\Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             
-            $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
-            $mail->altBody = $this->generateMailAltBody($model);
-            $mail->addresses($this->ensureRecipients($model));
-            
-            if ($this->module->replyToAttribute) {
-                $replyToAttribute = $this->module->replyToAttribute;
-                $mail->addReplyTo($model->{$replyToAttribute});
-            }
-            
-            if ($mail->send()) {
+            if ($this->composeAdminEmail($model)->send()) {
                 // evulate the callback
                 if (is_callable($this->module->callback)) {
                     call_user_func($this->module->callback, $model);
                 }
                 // evulate whether a mail needs to be send to the user or not
                 if ($this->module->sendToUserEmail) {
-                    $sendToUserMail = $this->module->sendToUserEmail;
-                    // composer new mailer object
-                    $mailer = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
-                    $mailer->altBody = $this->generateMailAltBody($model);
-                    $mailer->address($model->{$sendToUserMail});
-                    $mailer->send();
+                    $this->composeUserEmail($model)->send();
                 }
                 
                 Yii::$app->session->setFlash(self::CONTACTFORM_SUCCESS_FLASH);
@@ -91,6 +77,58 @@ class DefaultController extends \luya\web\Controller
         return $this->render('index', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Generate a mailer object
+     *
+     * @param \yii\base\Model $model
+     * @return \luya\components\Mail
+     * @since 1.0.12
+     */
+    protected function composeEmail($model)
+    {
+        $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
+        $mail->altBody = $this->generateMailAltBody($model);
+
+        return $mail;
+    }
+
+    /**
+     * Generate admin recipient mail object
+     *
+     * @param \yii\base\Model $model
+     * @return \luya\components\Mail
+     * @since 1.0.12
+     */
+    public function composeAdminEmail($model)
+    {
+        $mail = $this->composeEmail($model);
+        $mail->addresses($this->ensureRecipients($model));
+        
+        if ($this->module->replyToAttribute) {
+            $replyToAttribute = $this->module->replyToAttribute;
+            $mail->addReplyTo($model->{$replyToAttribute});
+        }
+
+        return $mail;
+    }
+
+    /**
+     * Generate the "sendTouser" email object
+     *
+     * @param \yii\base\Model $model
+     * @return \luya\components\Mail
+     * @since 1.0.12
+     */
+    public function composeUserEmail($model)
+    {
+        $sendToUserMail = $this->module->sendToUserEmail;
+        // composer new mailer object
+        $mailer = $this->composeEmail($model);
+        $mailer->address($model->{$sendToUserMail});
+
+        return $mailer;
     }
 
     /**
