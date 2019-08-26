@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
-## 1.0.12
+## 1.0.12 (26. August 2019)
 
 + [#24](https://github.com/luyadev/luya-module-contactform/issues/24) Fixed bug when using modelClass and sendTouserEmail is not defined.
 
