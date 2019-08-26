@@ -226,4 +226,41 @@ Label for Field: Content', $altBody);
         $ctrl = new DefaultController('default', $module);
         $this->assertContainsTrimmed('<h2>Hello</h2><p>Paragraph</p><ul><li>foo</li><li>bar</li></ul><table id="w5" style="width:100%" cellpadding="5" cellpsacing="2" border="0"><tr><th width="150" style="border-bottom:1px solid #F0F0F0">Foo</th><td style="border-bottom:1px solid #F0F0F0">bar</td></tr></table>', $ctrl->generateMailMessage($model));
     }
+
+    public function testMailerObjects()
+    {
+        $module = new Module('contactform', null, [
+            'attributes' => ['foo', 'bar', 'email'],
+            'recipients' => 'admin@luya.io',
+            'replyToAttribute' => 'email',
+            'sendToUserEmail' => 'email',
+            'rules' => [
+                [['foo', 'bar', 'email'], 'string']
+            ]
+        ]);
+
+        $ctrl = new DefaultController('mailer', $module);
+
+        $model = $module->getModel();
+        $model->foo = '1';
+        $model->bar = '2';
+        $model->email = 'user@luya.io';
+
+        $r = $ctrl->composeAdminEmail($model);
+
+        $this->assertSame([
+            'user@luya.io' => ['user@luya.io', 'user@luya.io']
+        ], $r->mailer->getReplyToAddresses());
+        $this->assertSame([
+            ['admin@luya.io', 'admin@luya.io']
+        ], $r->mailer->getToAddresses());
+
+
+        $r = $ctrl->composeUserEmail($model);
+
+        $this->assertSame([], $r->mailer->getReplyToAddresses());
+        $this->assertSame([
+            ['user@luya.io', 'user@luya.io']
+        ], $r->mailer->getToAddresses());
+    }
 }

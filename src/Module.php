@@ -3,7 +3,9 @@
 namespace luya\contactform;
 
 use Yii;
-use luya\Exception;
+use luya\base\DynamicModel;
+use yii\base\InvalidConfigException;
+use yii\di\Instance;
 
 /**
  * LUYA CONTACT FORM MODULE
@@ -24,9 +26,10 @@ use luya\Exception;
  * ```
  *
  * @property string|callable $mailTitle The mail title property. See {{setMailTitle()}}.
- * @property string|callable  $mailText  An optional mail text which is displayed above the table with the form values. See {{setMailText()}}.
+ * @property string|callable $mailText  An optional mail text which is displayed above the table with the form values. See {{setMailText()}}.
  * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null.
  * If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
+ * @property \yii\base\Model $model The model to validate.
  *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -138,6 +141,73 @@ class Module extends \luya\base\Module
      * ```
      */
     public $sendToUserEmail = false;
+    
+    /**
+     * @var string An optional text which is displayed as footer in the email message. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
+     * @see {{luya\contactform\Module::$mailText}}
+     * @since 1.0.8
+     */
+    public $mailFooterText;
+    
+    /**
+     * @var string The template which is used to render the email. Default template is `<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}` with variables:
+     * + title: Value from $mailTitle
+     * + time: Contains the timestamp of when the email is sent.
+     * + text: Value from $mailText
+     * + table: The attributes with the values from the user input.
+     * + footer: Value from $mailFooterText
+     * 
+     * Keep in mind the {text} and {footer} variables will be parsed with {{luya\TagParsers::convertWithMarkdown()}} and is therefore enclosed with a <p> tag.
+     * @since 1.0.8
+     */
+    public $mailTemplate = "<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}";
+    
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        
+        if (!$this->modelClass && $this->attributes === null) {
+            throw new InvalidConfigException("The `attributes` property or `modelClass` can not be null.");
+        }
+        
+        if ($this->recipients === null) {
+            throw new InvalidConfigException("The `recipients` property must be defined with an array of recipients who will recieve an email.");
+        }
+    }
+    
+    private $_mailTitle = null;
+    
+    /**
+     * Getter method for $mailTitle.
+     *
+     * @return string
+     */
+    public function getMailTitle()
+    {
+        if ($this->_mailTitle === null) {
+            $this->_mailTitle = '['.Yii::$app->siteTitle.'] ' .  static::t('Contact Request');
+        }
+
+        // if its a callable, evaluate the title when accessing.
+        if (is_callable($this->_mailTitle)) {
+            $this->_mailTitle = call_user_func($this->_mailTitle);
+        }
+         
+        return $this->_mailTitle;
+    }
+    
+    /**
+     * Setter method fro $mailTitle.
+     *
+     * @param string|callable $title The mail title text.
+     */
+    public function setMailTitle($title)
+    {
+        $this->_mailTitle = $title;
+    }
 
     private $_mailText;
 
@@ -192,78 +262,42 @@ class Module extends \luya\base\Module
 
         return $this->_mailText;
     }
-    
+
     /**
-     * @var string An optional text which is displayed as footer in the email message. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
-     * @see {{luya\contactform\Module::$mailText}}
-     * @since 1.0.8
-     */
-    public $mailFooterText;
-    
-    /**
-     * @var string The template which is used to render the email. Default template is `<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}` with variables:
-     * + title: Value from $mailTitle
-     * + time: Contains the timestamp of when the email is sent.
-     * + text: Value from $mailText
-     * + table: The attributes with the values from the user input.
-     * + footer: Value from $mailFooterText
+     * Getter method for model to apply validations.
      * 
-     * Keep in mind the {text} and {footer} variables will be parsed with {{luya\TagParsers::convertWithMarkdown()}} and is therefore enclosed with a <p> tag.
-     * @since 1.0.8
+     * @return yii\base\Model
+     * @since 1.0.12
      */
-    public $mailTemplate = "<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}";
-    
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function getModel()
     {
-        parent::init();
-        
-        if (!$this->modelClass && $this->attributes === null) {
-            throw new Exception("The `attributes` property must be defined with an array of available attributes.");
+        if ($this->modelClass) {
+            // generate the model object from property
+            return Instance::ensure($this->modelClass, 'yii\base\Model');
         }
-        
-        if ($this->recipients === null) {
-            throw new Exception("The `recipients` property must be defined with an array of recipients who will recieve an email.");
-        }
-    }
-    
-    private $_mailTitle = null;
-    
-    /**
-     * Getter method for $mailTitle.
-     *
-     * @return string
-     */
-    public function getMailTitle()
-    {
-        if ($this->_mailTitle === null) {
-            $this->_mailTitle = '['.Yii::$app->siteTitle.'] ' .  static::t('Contact Request');
+        // use the dynamic model
+        $model = new DynamicModel($this->attributes);
+        $model->attributeLabels = $this->attributeLabels;
+        foreach ($this->rules as $rule) {
+            if (is_array($rule) && isset($rule[0], $rule[1])) {
+                $attributes = $rule[0];
+                $validator = $rule[1];
+                unset($rule[0], $rule[1]);
+                $model->addRule($attributes, $validator, $rule);
+            } else {
+                throw new InvalidConfigException('Invalid validation rule: a rule must specify both attribute names and validator type.');
+            }
         }
 
-        // if its a callable, evaluate the title when accessing.
-        if (is_callable($this->_mailTitle)) {
-            $this->_mailTitle = call_user_func($this->_mailTitle);
-        }
-         
-        return $this->_mailTitle;
-    }
-    
-    /**
-     * Setter method fro $mailTitle.
-     *
-     * @param string|callable $title The mail title text.
-     */
-    public function setMailTitle($title)
-    {
-        $this->_mailTitle = $title;
+        return $model;
     }
     
     private $_replyToAttribute = null;
     
     /**
-     * Getter method for replyToAttribute
+     * Getter method for replyToAttribute.
+     * 
+     * If sendTouserEmail is configured, this attribute value will taken as reply to adress.
      *
      * @return string Returns the auto evaled replyToAttribute or used the value from setter method.
      */
@@ -275,7 +309,7 @@ class Module extends \luya\base\Module
             } else {
                 // try to auto detected email attribute from attributes last
                 foreach (['email', 'mail', 'emailaddresse', 'email_address'] as $mail) {
-                    if (in_array($mail, $this->attributes)) {
+                    if (in_array($mail, $this->model->attributes())) {
                         $this->_replyToAttribute = $mail;
                         break;
                     }
