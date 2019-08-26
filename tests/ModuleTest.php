@@ -47,7 +47,29 @@ class ModuleTest extends WebApplicationTestCase
         ]);
 
         $this->assertSame('mail', $module->getReplyToAttribute());
+    }
 
+    public function testModelRules()
+    {
+        $module = new Module('1', null, [
+            'attributes' => ['foo', 'bar'],
+            'recipients' => 'john@doe.com',
+            'rules' => [
+                ['foo', 'string']
+            ]
+        ]);
 
+        $this->assertNotEmpty($module->model->getValidators());
+
+        $module = new Module('1', null, [
+            'attributes' => ['foo', 'bar'],
+            'recipients' => 'john@doe.com',
+            'rules' => [
+                ['foo']
+            ]
+        ]);
+
+        $this->expectException(InvalidConfigException::class);
+        $module->model->getValidators();
     }
 }
