@@ -5,15 +5,14 @@ namespace luya\contactform\controllers;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use luya\base\DynamicModel;
 use luya\TagParser;
 use luya\web\filters\RobotsFilter;
-use yii\di\Instance;
 
 /**
  * Contact Form Default Controller.
  *
  * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class DefaultController extends \luya\web\Controller
 {
@@ -39,24 +38,8 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionIndex()
     {
-        if ($this->module->modelClass) {
-            // generate the model object from property
-            $model = Instance::ensure($this->module->modelClass, 'yii\base\Model');
-        } else {
-            // use the dynamic model
-            $model = new DynamicModel($this->module->attributes);
-            $model->attributeLabels = $this->module->attributeLabels;
-            foreach ($this->module->rules as $rule) {
-                if (is_array($rule) && isset($rule[0], $rule[1])) {
-                    $attributes = $rule[0];
-                    $validator = $rule[1];
-                    unset($rule[0], $rule[1]);
-                    $model->addRule($attributes, $validator, $rule);
-                } else {
-                    throw new InvalidConfigException('Invalid validation rule: a rule must specify both attribute names and validator type.');
-                }
-            }
-        }
+        $model = $this->module->getModel();
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             
             $mail = Yii::$app->mail->compose($this->module->mailTitle, $this->generateMailMessage($model));
@@ -65,16 +48,18 @@ class DefaultController extends \luya\web\Controller
             $mail->addresses($recipients);
             
             if ($this->module->replyToAttribute) {
-                $mail->addReplyTo($model->$replyToAttribute);
+                $replyToAttribute = $this->module->replyToAttribute;
+                $mail->addReplyTo($model->{$replyToAttribute});
             }
             
             if ($mail->send()) {
                 if ($this->module->sendToUserEmail) {
+                    $sendToUserMail = $this->module->sendToUserEmail;
                     $mailer = Yii::$app->mail;
                     $mailer->altBody = $this->generateMailAltBody($model);
                     $mailer->subject($this->module->mailTitle);
                     $mailer->body($this->generateMailMessage($model));
-                    $mailer->address($model->$sendToUserMail);
+                    $mailer->address($model->{$sendToUserMail});
                     $mailer->send();
                 }
                 
