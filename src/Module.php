@@ -59,7 +59,7 @@ class Module extends \luya\base\Module
      * 'attributes' => ['name', 'email', 'street', 'city', 'tel', 'message'],
      * ```
      */
-    public $attributes;
+    public $attributes = [];
     
     /**
      * @var array An array of detail view attributes based to the {{yii\widgets\DetailView::attributes}} in order to
@@ -275,7 +275,7 @@ class Module extends \luya\base\Module
             } else {
                 // try to auto detected email attribute from attributes last
                 foreach (['email', 'mail', 'emailaddresse', 'email_address'] as $mail) {
-                    if (isset($this->attributes) && in_array($mail, $this->attributes)) {
+                    if (in_array($mail, $this->attributes)) {
                         $this->_replyToAttribute = $mail;
                         break;
                     }
