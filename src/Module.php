@@ -131,6 +131,12 @@ class Module extends \luya\base\Module
      * and throws an exception. As humans requires at least more then 2 seconds to fillup a form we use this as base value.
      */
     public $spamDetectionDelay = 2;
+
+    /**
+     * @var boolean Whether the controller action should validate csrf or not.
+     * @since 1.0.13
+     */
+    public $enableCsrfValidation = true;
     
     /**
      * @var string If you like to enable that the same email for $recipients is going to be sent to the customer which enters form provide the attribute name

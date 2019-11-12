@@ -40,6 +40,8 @@ class DefaultController extends \luya\web\Controller
      */
     public function actionIndex()
     {
+        $this->enableCsrfValidation = $this->module->enableCsrfValidation;
+        
         $model = $this->module->getModel();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
