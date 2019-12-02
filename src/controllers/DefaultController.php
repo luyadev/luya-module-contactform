@@ -53,8 +53,8 @@ class DefaultController extends \luya\web\Controller
         $model = $this->module->getModel();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            
-            if ($this->composeAdminEmail($model)->send()) {
+            $mailerObject = $this->composeAdminEmail($model);
+            if ($mailerObject->send()) {
                 // evulate the callback
                 if (is_callable($this->module->callback)) {
                     call_user_func($this->module->callback, $model);
@@ -75,7 +75,7 @@ class DefaultController extends \luya\web\Controller
                 return $this->refresh();
             }
 
-            throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config.');
+            throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config. Error: ' . $mailerObject->error);
         }
 
         if (Yii::$app->request->isAjax) {
