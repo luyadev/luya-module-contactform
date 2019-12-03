@@ -75,7 +75,7 @@ class DefaultController extends \luya\web\Controller
                 return $this->refresh();
             }
 
-            throw new InvalidConfigException('Unable to send contact email, maybe the mail component is not setup properly in your config. Error: ' . $mailerObject->error);
+            throw new InvalidConfigException('Unable to send email, maybe the mail component is not setup properly in the config (' . $mailerObject->error. ').');
         }
 
         if (Yii::$app->request->isAjax) {
@@ -176,17 +176,17 @@ class DefaultController extends \luya\web\Controller
     
     /**
      * Generate E-Mail Alt Body without html data.
-     * 
+     *
      * @param Model $model
      * @return string The ald body content
      */
     public function generateMailAltBody(Model $model)
     {
-    	return $this->renderFile('@'.$this->module->id.'/views/_altmail.php', [
-    		'model' => $model,
-    		'detailViewAttributes' => $this->module->detailViewAttributes,
-    		'title' => $this->module->mailTitle,
-    		'text' => strip_tags($this->module->mailText),
-    	]);
+        return $this->renderFile('@'.$this->module->id.'/views/_altmail.php', [
+            'model' => $model,
+            'detailViewAttributes' => $this->module->detailViewAttributes,
+            'title' => $this->module->mailTitle,
+            'text' => strip_tags($this->module->mailText),
+        ]);
     }
 }

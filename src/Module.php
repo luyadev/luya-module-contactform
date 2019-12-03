@@ -45,12 +45,12 @@ class Module extends \luya\base\Module
     /**
      * @var string|array You can define a model class which is used instead of $attributes, $attributeLabels and $rules
      * is defined those properties has no effect `$attributes`, `$rules` and `$attributeLabels`.
-     * 
+     *
      * ```php
      * 'modelClass' => 'app\models\MyFormModel',
      * ```
      * The model must be an instance of {{yii\base\Model}}.
-     * 
+     *
      * @since 1.0.11
      */
     public $modelClass;
@@ -113,13 +113,13 @@ class Module extends \luya\base\Module
      * @var array|string|callable An array or string with all recipients the mail should be sent on success, recipients will be assigned via
      * {{\luya\components\Mail::addresses()}} method of the mailer function. Since version 1.0.10 its also possible
      * to provide a callable function which must return a string or an array which is then passed to adresses().
-     * 
+     *
      * ```php
      * 'recipients' => function($model) {
      *     if ($model->xyz) {
      *         return 'thisrecipient@luya.io';
      *     }
-     * 
+     *
      *     return 'anotherrecipient@luya.io';
      * }
      * ```
@@ -162,7 +162,7 @@ class Module extends \luya\base\Module
      * + text: Value from $mailText
      * + table: The attributes with the values from the user input.
      * + footer: Value from $mailFooterText
-     * 
+     *
      * Keep in mind the {text} and {footer} variables will be parsed with {{luya\TagParsers::convertWithMarkdown()}} and is therefore enclosed with a <p> tag.
      * @since 1.0.8
      */
@@ -219,15 +219,15 @@ class Module extends \luya\base\Module
 
     /**
      * An optional mail text which is displayed above the table with the form values. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
-     * 
+     *
      * An example of how to use markdown and newlines in a string:
-     * 
+     *
      * ```php
      * 'mailText' => "## Hello\nParagraph\n+ foo\n+ bar",
      * ```
-     * 
+     *
      * Which would be equals to:
-     * 
+     *
      * ```php
      * 'mailText' => '
      * ## Hello
@@ -235,9 +235,9 @@ class Module extends \luya\base\Module
      * + foo
      * + bar
      * ```
-     * 
+     *
      * And would renderd in the email as followed:
-     * 
+     *
      * ```php
      * <h2>Hello</h2>
      * <p>Paragraph</p>
@@ -246,7 +246,7 @@ class Module extends \luya\base\Module
      *     <li>bar</li>
      * </ul>
      * ```
-     * 
+     *
      * @param string|callable $mailText Mail text
      * @since 1.0.11
      */
@@ -257,7 +257,7 @@ class Module extends \luya\base\Module
 
     /**
      * Getter method of mailtext.
-     * 
+     *
      * @since 1.0.11
      */
     public function getMailText()
@@ -271,7 +271,7 @@ class Module extends \luya\base\Module
 
     /**
      * Getter method for model to apply validations.
-     * 
+     *
      * @return yii\base\Model
      * @since 1.0.12
      */
@@ -302,7 +302,7 @@ class Module extends \luya\base\Module
     
     /**
      * Getter method for replyToAttribute.
-     * 
+     *
      * If sendTouserEmail is configured, this attribute value will taken as reply to adress.
      *
      * @return string Returns the auto evaled replyToAttribute or used the value from setter method.
