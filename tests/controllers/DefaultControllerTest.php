@@ -30,17 +30,17 @@ class DefaultControllerTest extends WebApplicationTestCase
                     'class' => 'luya\contactform\Module',
                     'attributes' => ['firstname', 'lastname', 'email'],
                     'recipients' => 'test@luya.io',
-                    'mailText' => function() {
+                    'mailText' => function () {
                         return 'callable text';
                     },
-                    'mailTitle' => function() {
+                    'mailTitle' => function () {
                         return 'callable title';
                     }
                 ],
                 'callableform' => [
                     'class' => 'luya\contactform\Module',
                     'attributes' => ['firstname', 'lastname', 'email'],
-                    'recipients' => function($model) {
+                    'recipients' => function ($model) {
                         if ($model->firstname == 'barfoo') {
                             return 'barfoo@luya.io';
                         }
@@ -68,10 +68,10 @@ class DefaultControllerTest extends WebApplicationTestCase
     public function testClosureTextAndTitle()
     {
         $mod = new Module('contact', null, ['modelClass' => 'app/models/Stuff', 'recipients' => 'none']);
-        $mod->mailTitle = function() {
+        $mod->mailTitle = function () {
             return 'mailtitle';
         };
-        $mod->mailText = function() {
+        $mod->mailText = function () {
             return 'mailtext';
         };
 
@@ -175,30 +175,30 @@ EOT;
     
     public function testGenerateMailAltBody()
     {
-    	$model = new DynamicModel(['foo', 'labelized']);
-    	$model->foo = ['bar', 'foo'];
-    	$model->labelized = 'Content';
-    	$model->attributeLabels = ['labelized' => 'Label for Field'];
-    	
-    	$ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
-    	// in order to see the brs in tests we wrap with nl2br.
-    	$altBody = $ctrl->generateMailAltBody($model);
-    	$this->assertContains('Foo: bar, foo
+        $model = new DynamicModel(['foo', 'labelized']);
+        $model->foo = ['bar', 'foo'];
+        $model->labelized = 'Content';
+        $model->attributeLabels = ['labelized' => 'Label for Field'];
+        
+        $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
+        // in order to see the brs in tests we wrap with nl2br.
+        $altBody = $ctrl->generateMailAltBody($model);
+        $this->assertContains('Foo: bar, foo
 Label for Field: Content', $altBody);
     }
     
     public function testGenerateMailAltBodyWithAttributesLAbels()
     {
-    	$model = new DynamicModel(['foo']);
-    	$model->foo = false;
-    	 
-    	$module = Yii::$app->getModule('contactform');
-    	$module->detailViewAttributes = ['foo:boolean:The Label'];
-    	
-    	$ctrl = new DefaultController('default', $module);
-    	// in order to see the brs in tests we wrap with nl2br.
-    	$altBody = $ctrl->generateMailAltBody($model);
-    	$this->assertContains('The Label: No', $altBody);
+        $model = new DynamicModel(['foo']);
+        $model->foo = false;
+         
+        $module = Yii::$app->getModule('contactform');
+        $module->detailViewAttributes = ['foo:boolean:The Label'];
+        
+        $ctrl = new DefaultController('default', $module);
+        // in order to see the brs in tests we wrap with nl2br.
+        $altBody = $ctrl->generateMailAltBody($model);
+        $this->assertContains('The Label: No', $altBody);
     }
     
     public function testModuleMailTemplateProperty()
@@ -262,5 +262,27 @@ Label for Field: Content', $altBody);
         $this->assertSame([
             ['user@luya.io', 'user@luya.io']
         ], $r->mailer->getToAddresses());
+    }
+
+    public function testMailerError()
+    {
+        $module = new Module('contactform', null, [
+            'attributes' => ['foo'],
+            'recipients' => 'admin@luya.io',
+            'rules' => [
+                [['foo'], 'string']
+            ]
+        ]);
+
+        $ctrl = new DefaultController('mailer', $module);
+
+        Yii::$app->request->setBodyParams([
+            'DynamicModel' => ['foo' => 'bar'],
+        ]);
+
+        $this->expectException('yii\base\InvalidConfigException', 'Unable to send email, maybe the mail component is not setup properly in the config (SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting).');
+        $action = $ctrl->actionIndex();
+
+        var_dump($action);
     }
 }

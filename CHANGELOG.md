@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.0.14 (3. December 2019)
+
++ [#30](https://github.com/luyadev/luya-module-contactform/pull/30) Attache the mailer send error to the exception when mail is unable to send.
+
 ## 1.0.13 (12. November 2019)
 
 + [#28](https://github.com/luyadev/luya-module-contactform/issues/28) Option to disable csrf validation.
