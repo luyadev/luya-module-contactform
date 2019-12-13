@@ -71,31 +71,32 @@ Typically view files are located in `views` folder of your project root, create 
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-/* @var object $model Contains the model object based on DynamicModel yii class. */
-/* @var $this \luya\web\View */
-/* @var $form \yii\widgets\ActiveForm */
-
+/** @var \yii\base\Model $model Contains the model object based on DynamicModel yii class. */
+/** @var \luya\web\View $this The current View object */
+/** @var ActiveForm $form The ActiveForm Object */
 ?>
-
-<?php if (Yii::$app->session->getFlash('contactform_success')): ?>
+<?php if (Yii::$app->session->getFlash($this->context::CONTACTFORM_SUCCESS_FLASH)): ?>
     <div class="alert alert-success">The form has been submitted successfully.</div>
 <?php else: ?>
     <?php $form = ActiveForm::begin(); ?>
-    
     <?= $form->field($model, 'name'); ?>
     <?= $form->field($model, 'email'); ?>
     <?= $form->field($model, 'street'); ?>
     <?= $form->field($model, 'city'); ?>
     <?= $form->field($model, 'tel'); ?>
     <?= $form->field($model, 'message')->textarea(); ?>
-    
     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
-    
     <?php ActiveForm::end(); ?>
 <?php endif; ?>
 ```
 
 when the form validation success the variable `$success` will be true, in addition a Yii2 flash mesage `Yii::$app->session->setFlash('contactform_success')` with the key-name `contactform_success` will be set.
+
+In order to ensure a form is only submited once use the LUYA Core SubmitButtonWidget.
+
+```php
+SubmitButtonWidget::widget(['label' => 'Send', 'pushed' => 'Sending...', 'activeForm' => $form, 'options' => ['class' => 'btn btn-primary']]);
+```
 
 Tip: In order to style required fields with asterisks, you can use the following CSS:
 
