@@ -214,7 +214,7 @@ class Module extends \luya\base\Module
         $this->_mailTitle = $title;
     }
 
-    private $_mailText;
+    private $_mailText = '';
 
     /**
      * An optional mail text which is displayed above the table with the form values. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
