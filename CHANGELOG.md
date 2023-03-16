@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.1.1 (16. March 2023)
+
++ Fix PHP 8.1 issue if mailText is not set
+
 ## 1.1.0 (16. March 2023)
 
 + Disable testing for PHP 7.2 & PHP 7.3
