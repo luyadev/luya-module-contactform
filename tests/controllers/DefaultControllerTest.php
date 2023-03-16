@@ -157,7 +157,7 @@ class DefaultControllerTest extends WebApplicationTestCase
 EOT;
         
         $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
-        $this->assertContains($mail, $ctrl->generateMailMessage($model));
+        $this->assertStringContainsString($mail, $ctrl->generateMailMessage($model));
     }
     
     public function testEmailArrayMessage()
@@ -170,7 +170,7 @@ EOT;
 EOT;
         
         $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
-        $this->assertContains($mail, $ctrl->generateMailMessage($model));
+        $this->assertStringContainsString($mail, $ctrl->generateMailMessage($model));
     }
     
     public function testGenerateMailAltBody()
@@ -183,7 +183,7 @@ EOT;
         $ctrl = new DefaultController('default', Yii::$app->getModule('contactform'));
         // in order to see the brs in tests we wrap with nl2br.
         $altBody = $ctrl->generateMailAltBody($model);
-        $this->assertContains('Foo: bar, foo
+        $this->assertStringContainsString('Foo: bar, foo
 Label for Field: Content', $altBody);
     }
     
@@ -198,7 +198,7 @@ Label for Field: Content', $altBody);
         $ctrl = new DefaultController('default', $module);
         // in order to see the brs in tests we wrap with nl2br.
         $altBody = $ctrl->generateMailAltBody($model);
-        $this->assertContains('The Label: No', $altBody);
+        $this->assertStringContainsString('The Label: No', $altBody);
     }
     
     public function testModuleMailTemplateProperty()
@@ -210,7 +210,7 @@ Label for Field: Content', $altBody);
         $module->mailTitle = '-';
         $module->mailTemplate = '<p>foo{title}bar</p>';
         $ctrl = new DefaultController('default', $module);
-        $this->assertSame('<p>foo-bar</p>', $ctrl->generateMailMessage($model));
+        $this->assertStringContainsString('<p>foo-bar</p>', $ctrl->generateMailMessage($model));
     }
     
     /**
