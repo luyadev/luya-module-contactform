@@ -2,8 +2,8 @@
 
 namespace luya\contactform;
 
-use Yii;
 use luya\base\DynamicModel;
+use Yii;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 
@@ -27,8 +27,7 @@ use yii\di\Instance;
  *
  * @property string|callable $mailTitle The mail title property. See {{setMailTitle()}}.
  * @property string|callable $mailText  An optional mail text which is displayed above the table with the form values. See {{setMailText()}}.
- * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null.
- * If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
+ * @property string $replyToAttribute Returns the attribute which should be used to set the replyTo adresse. If not found it trys to detected. Otherwise null. If the `$sendToUserEmail` attribute is set, it will take this attribute field to set the reply to.
  * @property \yii\base\Model $model The model to validate.
  *
  * @author Basil Suter <basil@nadar.io>
@@ -41,7 +40,7 @@ class Module extends \luya\base\Module
      * the module base path views folder.
      */
     public $useAppViewPath = true;
-    
+
     /**
      * @var string|array You can define a model class which is used instead of $attributes, $attributeLabels and $rules
      * is defined those properties has no effect `$attributes`, `$rules` and `$attributeLabels`.
@@ -63,7 +62,7 @@ class Module extends \luya\base\Module
      * ```
      */
     public $attributes;
-    
+
     /**
      * @var array An array of detail view attributes based to the {{yii\widgets\DetailView::attributes}} in order to
      * customize the mail table which is rendered trough {{yii\widgets\DetailView}}. If no value is provided,
@@ -71,7 +70,7 @@ class Module extends \luya\base\Module
      * @since 1.0.2
      */
     public $detailViewAttributes;
-    
+
     /**
      * @var array An array define the attribute labels for an attribute, internal the attribute label values
      * will be wrapped into the `Yii::t()` method.
@@ -83,7 +82,7 @@ class Module extends \luya\base\Module
      * ```
      */
     public $attributeLabels = [];
-    
+
     /**
      * @var array An array define the rules for the corresponding attributes. Example rules:
      *
@@ -95,7 +94,7 @@ class Module extends \luya\base\Module
      * ```
      */
     public $rules = [];
-    
+
     /**
      * @var callable You can define a anonmys function which will be trigger on success, the first parameter of the
      * function can be the model which will be assigned [[\luya\base\DynamicModel]]. Example callback
@@ -108,7 +107,7 @@ class Module extends \luya\base\Module
      * ```
      */
     public $callback;
-    
+
     /**
      * @var array|string|callable An array or string with all recipients the mail should be sent on success, recipients will be assigned via
      * {{\luya\components\Mail::addresses()}} method of the mailer function. Since version 1.0.10 its also possible
@@ -125,7 +124,7 @@ class Module extends \luya\base\Module
      * ```
      */
     public $recipients;
-    
+
     /**
      * @var int Number in seconds, if the process time is faster then `$spamDetectionDelay`, the mail will threated as spam
      * and throws an exception. As humans requires at least more then 2 seconds to fillup a form we use this as base value.
@@ -137,9 +136,9 @@ class Module extends \luya\base\Module
      * @since 1.0.13
      */
     public $enableCsrfValidation = true;
-    
+
     /**
-     * @var string If you like to enable that the same email for $recipients is going to be sent to the customer which enters form provide the attribute name
+     * @var string|boolean If you like to enable that the same email for $recipients is going to be sent to the customer which enters form provide the attribute name
      * for the email adresse from the $model configuration. Assuming you have an attribute 'email' in your configuration attributes you have to provide this name.
      *
      * ```php
@@ -147,14 +146,14 @@ class Module extends \luya\base\Module
      * ```
      */
     public $sendToUserEmail = false;
-    
+
     /**
      * @var string An optional text which is displayed as footer in the email message. The text will be parsed with markdown and is therfore enclosed with a <p> tag.
      * @see {{luya\contactform\Module::$mailText}}
      * @since 1.0.8
      */
     public $mailFooterText;
-    
+
     /**
      * @var string The template which is used to render the email. Default template is `<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}` with variables:
      * + title: Value from $mailTitle
@@ -167,25 +166,25 @@ class Module extends \luya\base\Module
      * @since 1.0.8
      */
     public $mailTemplate = "<h2>{title}</h2><p><i>{time}</i></p>{text}{table}{footer}";
-    
+
     /**
      * @inheritdoc
      */
     public function init()
     {
         parent::init();
-        
+
         if (!$this->modelClass && $this->attributes === null) {
             throw new InvalidConfigException("The `attributes` property or `modelClass` can not be null.");
         }
-        
+
         if ($this->recipients === null) {
             throw new InvalidConfigException("The `recipients` property must be defined with an array of recipients who will recieve an email.");
         }
     }
-    
+
     private $_mailTitle = null;
-    
+
     /**
      * Getter method for $mailTitle.
      *
@@ -201,10 +200,10 @@ class Module extends \luya\base\Module
         if (is_callable($this->_mailTitle)) {
             $this->_mailTitle = call_user_func($this->_mailTitle);
         }
-         
+
         return $this->_mailTitle;
     }
-    
+
     /**
      * Setter method fro $mailTitle.
      *
@@ -297,9 +296,9 @@ class Module extends \luya\base\Module
 
         return $model;
     }
-    
+
     private $_replyToAttribute = null;
-    
+
     /**
      * Getter method for replyToAttribute.
      *
@@ -322,10 +321,10 @@ class Module extends \luya\base\Module
                 }
             }
         }
-        
+
         return $this->_replyToAttribute;
     }
-    
+
     /**
      * Setter method for replyToAttribute.
      *
@@ -335,7 +334,7 @@ class Module extends \luya\base\Module
     {
         $this->_replyToAttribute = $attributeName;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -345,7 +344,7 @@ class Module extends \luya\base\Module
             'contactform' => 'contactform.php',
         ]);
     }
-    
+
     /**
      * Translation Method for Contact Form.
      *

@@ -2,11 +2,11 @@
 
 namespace luya\contactform\controllers;
 
+use luya\TagParser;
+use luya\web\filters\RobotsFilter;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use luya\TagParser;
-use luya\web\filters\RobotsFilter;
 
 /**
  * Contact Form Default Controller.
@@ -16,7 +16,7 @@ use luya\web\filters\RobotsFilter;
  */
 class DefaultController extends \luya\web\Controller
 {
-    const CONTACTFORM_SUCCESS_FLASH = 'contactform_success';
+    public const CONTACTFORM_SUCCESS_FLASH = 'contactform_success';
 
     /**
      * @inheritdoc
@@ -24,12 +24,12 @@ class DefaultController extends \luya\web\Controller
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-        
+
         $behaviors['robotsFilter'] = [
             'class' => RobotsFilter::class,
             'delay' => $this->module->spamDetectionDelay,
         ];
-        
+
         return $behaviors;
     }
 
@@ -63,7 +63,7 @@ class DefaultController extends \luya\web\Controller
                 if ($this->module->sendToUserEmail) {
                     $this->composeUserEmail($model)->send();
                 }
-                
+
                 Yii::$app->session->setFlash(self::CONTACTFORM_SUCCESS_FLASH);
 
                 if (Yii::$app->request->isAjax) {
@@ -115,7 +115,7 @@ class DefaultController extends \luya\web\Controller
     {
         $mail = $this->composeEmail($model);
         $mail->addresses($this->ensureRecipients($model));
-        
+
         if ($this->module->replyToAttribute) {
             $replyToAttribute = $this->module->replyToAttribute;
             $mail->addReplyTo($model->{$replyToAttribute});
@@ -156,7 +156,7 @@ class DefaultController extends \luya\web\Controller
 
         return (array) $this->module->recipients;
     }
-    
+
     /**
      * Generate E-Mail Message
      * @param \yii\base\Model $model
@@ -173,7 +173,7 @@ class DefaultController extends \luya\web\Controller
             'footerText' => TagParser::convertWithMarkdown($this->module->mailFooterText),
         ]);
     }
-    
+
     /**
      * Generate E-Mail Alt Body without html data.
      *

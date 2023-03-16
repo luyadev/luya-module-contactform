@@ -1,41 +1,62 @@
 {
-    "name" : "luyadev/luya-module-contactform",
-    "description" : "This module provides a very fast and secure way to create customizable contact forms.",
-    "type" : "luya-module",
-    "keywords" : ["php", "luya", "module", "cms", "yii2", "yii", "contact", "form", "yii2form", "dynamicformbuilder", "yii2-form", "luya-module"],
-    "license": "MIT",
-    "homepage" : "http://luya.io",
-    "authors" : [
-        {
-            "name" : "Basil Suter",
-            "email" : "git@nadar.io",
-            "homepage" : "https://github.com/nadar"
-        }
-    ],
-    "require-dev" : {
-        "luyadev/luya-testsuite" : "~1.0.0"
-    },
-    "support" : {
-        "issues" : "https://github.com/luyadev/luya-module-contactform/issues"
-    },
-    "autoload" : {
-        "psr-4" : {
-            "luya\\contactform\\" : "src/"
-        }
-    },
-    "autoload-dev" : {
-        "psr-4" : {
-            "luya\\contactform\\tests\\" : "tests/"
-        }
-    },
-    "config": {	
-        "platform": {	
-            "php": "7.2"	
-        }	
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
+  "name": "luyadev/luya-module-contactform",
+  "description": "This module provides a very fast and secure way to create customizable contact forms.",
+  "type": "luya-module",
+  "keywords": [
+    "php",
+    "luya",
+    "module",
+    "cms",
+    "yii2",
+    "yii",
+    "contact",
+    "form",
+    "yii2form",
+    "dynamicformbuilder",
+    "yii2-form",
+    "luya-module"
+  ],
+  "license": "MIT",
+  "homepage": "http://luya.io",
+  "authors": [
+    {
+      "name": "Basil Suter",
+      "email": "git@nadar.io",
+      "homepage": "https://github.com/nadar"
     }
+  ],
+  "require-dev": {
+    "luyadev/luya-testsuite": "^2.0",
+    "friendsofphp/php-cs-fixer": "^3.2",
+    "phpstan/phpstan": "^1.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "luya\\contactform\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "luya\\contactform\\tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan -v",
+    "phpcsfixer": "vendor/bin/php-cs-fixer fix"
+  },
+  "config": {
+    "fxp-asset": {
+      "enabled": false
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "luyadev/luya-composer": true
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
 }

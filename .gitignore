@@ -3,3 +3,5 @@
 /.project
 /vendor/
 /luya
+composer.lock
+.tmp

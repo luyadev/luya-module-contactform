@@ -1,11 +1,11 @@
 <?php
 
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
-/* @var object $model Contains the model object based on DynamicModel yii class. */
-/* @var $this \luya\web\View */
-/* @var $form \yii\widgets\ActiveForm */
+/** @var \yii\base\Model $model Contains the model object based on DynamicModel yii class. */
+/** @var \luya\web\View $this */
+/** @var \yii\widgets\ActiveForm $form */
 
 ?>
 <?php if (Yii::$app->session->getFlash('contactform_success')): ?>

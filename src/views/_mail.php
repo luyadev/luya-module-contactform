@@ -1,11 +1,13 @@
 <?php
+
 use yii\widgets\DetailView;
 
-/* @var $model \yii\base\Model The model which holds the migration*/
-/* @var $title string The title text */
-/* @var $text string The message text */
-/* @var $template string */
-/* @var $footerText string */
+/** @var \yii\base\Model $model The model which holds the migration*/
+/** @var string $title The title text */
+/** @var string $text The message text */
+/** @var string $template */
+/** @var string $footerText */
+/** @var array $detailViewAttributes */
 
 // since 1.0.8 generate mail message from template
 
@@ -21,7 +23,7 @@ $table = DetailView::widget([
     ],
     'template' => function ($attribute, $index, $widget) {
         // generate value from attribute
-        $value = is_array($attribute['value']) ? implode(", ", $attribute['value']): $attribute['value'];
+        $value = is_array($attribute['value']) ? implode(", ", $attribute['value']) : $attribute['value'];
         // replace label and value from template
         return strtr('<tr><th width="150" style="border-bottom:1px solid #F0F0F0">{label}</th><td style="border-bottom:1px solid #F0F0F0">{value}</td></tr>', [
             '{label}' => $attribute['label'],
@@ -34,7 +36,7 @@ $table = DetailView::widget([
 // <h2>{title}</h2><p><i>{time}</i></p>{text}\n{table}\n{footer}
 echo strtr($template, [
     '{title}' => $title,
-    '{time}' => strftime('%c'),
+    '{time}' => Yii::$app->formatter->asDatetime(time()),
     '{text}' => $text,
     '{table}' => $table,
     '{footer}' => $footerText
