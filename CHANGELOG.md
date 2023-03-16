@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.1.0 (16. March 2023)
+
++ Disable testing for PHP 7.2 & PHP 7.3
++ Added phpstan and csfixer
++ Moved to GitHub Actions
++ Fixed issues with PHP 8.1 compatibility
+
 ## 1.0.14 (3. December 2019)
 
 + [#30](https://github.com/luyadev/luya-module-contactform/pull/30) Attache the mailer send error to the exception when mail is unable to send.
