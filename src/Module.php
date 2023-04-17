@@ -79,15 +79,15 @@ class Module extends \luya\base\Module
      *     'email' => 'E-Mail-Adresse',
      * ],
      * ```
-     * 
+     *
      * If the value is an array the data is wrapped into Yii::t
-     * 
+     *
      * ```php
      * 'attributeLabels' => [
      *     'firstname' => ['app', 'Firstname'],
      * ],
      * ```
-     * 
+     *
      * Where the first key is the messages category.
      */
     public $attributeLabels = [];
