@@ -72,14 +72,23 @@ class Module extends \luya\base\Module
     public $detailViewAttributes;
 
     /**
-     * @var array An array define the attribute labels for an attribute, internal the attribute label values
-     * will be wrapped into the `Yii::t()` method.
+     * @var array An array define the attribute labels for an attribute.
      *
-     * ```
+     * ```php
      * 'attributeLabels' => [
      *     'email' => 'E-Mail-Adresse',
      * ],
      * ```
+     * 
+     * If the value is an array the data is wrapped into Yii::t
+     * 
+     * ```php
+     * 'attributeLabels' => [
+     *     'firstname' => ['app', 'Firstname'],
+     * ],
+     * ```
+     * 
+     * Where the first key is the messages category.
      */
     public $attributeLabels = [];
 
@@ -282,7 +291,12 @@ class Module extends \luya\base\Module
         }
         // use the dynamic model
         $model = new DynamicModel($this->attributes);
-        $model->attributeLabels = $this->attributeLabels;
+
+        $labels = [];
+        foreach ($this->attributeLabels as $key => $label) {
+            $labels[$key] = is_array($label) ? Yii::t($label[0], $label[1]) : $label;
+        }
+        $model->attributeLabels = $labels;
         foreach ($this->rules as $rule) {
             if (is_array($rule) && isset($rule[0], $rule[1])) {
                 $attributes = $rule[0];
