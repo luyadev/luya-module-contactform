@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. This project make usage of the [Yii Versioning Strategy](https://github.com/yiisoft/yii2/blob/master/docs/internals/versions.md).
 
+## 1.2.0 (20. April 2023)
+
++ Fixed issue where `$attributeLabels` where not sent into Yii::t localisation function. Its now possible via array where the first value is the category f.e `'firstname' => ['app', 'firstname']`.
+
 ## 1.1.1 (16. March 2023)
 
 + Fix PHP 8.1 issue if mailText is not set
